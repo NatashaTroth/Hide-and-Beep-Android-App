@@ -33,8 +33,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--hint text from API (inserted via Java)-->
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/hintText"
         android:layout_width="318dp"
         android:layout_height="wrap_content"
 
@@ -64,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/hintText"
         app:layout_constraintVertical_bias="0.504"
         app:srcCompat="@drawable/ic_tick_button"
         android:contentDescription="@string/img_description_tick_button"/>
@@ -76,7 +77,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="112dp"
         app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/hintText"
         app:srcCompat="@drawable/ic_hide2"
         android:contentDescription="@string/img_description_sheep_hide"/>
 
