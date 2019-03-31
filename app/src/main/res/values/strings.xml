@@ -14,6 +14,10 @@
     <string name="img_description_clouds">Clouds.</string>
     <string name="img_description_sheep_looking">Sheep looking.</string>
     <string name="img_description_sheep_loser">Sad sheep standing in the rain.</string>
+    <string name="img_description_alarm_bell">Red alarm bell.</string>
+    <string name="img_description_location_circle">A circle using colors to indicate how close the next hint is.</string>
+    <string name="img_description_sheep_sign">Sheep looking and holding a sign with the amount of time left for the game.</string>
+
 
 
     <!--Homescreen-->

@@ -46,7 +46,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:srcCompat="@drawable/ic_alarm2" />
+        app:srcCompat="@drawable/ic_alarm2"
+        android:contentDescription="@string/img_description_alarm_bell"/>
 
     <ImageView
         android:id="@+id/imageView11"
@@ -58,7 +59,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView12"
         app:layout_constraintTop_toTopOf="@+id/imageView12"
-        app:srcCompat="@drawable/ic_alarm1" />
+        app:srcCompat="@drawable/ic_alarm1"
+        android:contentDescription="@string/img_description_alarm_bell"/>
 
     <ImageView
         android:id="@+id/imageView12"
@@ -72,7 +74,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_yellowalarm" />
+        app:srcCompat="@drawable/ic_yellowalarm"
+        android:contentDescription="@string/img_description_location_circle"/>
 
     <ImageView
         android:id="@+id/imageView14"
@@ -82,7 +85,8 @@
         app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:srcCompat="@drawable/ic_sheepwithsign" />
+        app:srcCompat="@drawable/ic_sheepwithsign"
+        android:contentDescription="@string/img_description_sheep_sign"/>
 
     <TextView
         android:id="@+id/gameTime"
