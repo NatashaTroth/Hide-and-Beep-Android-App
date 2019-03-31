@@ -2,6 +2,8 @@
     <string name="app_name">Game App Project</string>
     <string name="back">Back</string>
     <string name="back_to_game">Back to game</string>
+    <string name="play_again">Play again</string>
+
 
     <!--Img Content Description-->
     <string name="img_description_grass">Green grass field with a fence.</string>
@@ -11,6 +13,7 @@
     <string name="img_description_logo">Hide and Beep logo.</string>
     <string name="img_description_clouds">Clouds.</string>
     <string name="img_description_sheep_looking">Sheep looking.</string>
+    <string name="img_description_sheep_loser">Sad sheep standing in the rain.</string>
 
 
     <!--Homescreen-->
@@ -26,10 +29,13 @@
     <string name="live_ranking_hints_found">Hints found:</string>
     <string name="live_ranking_time_remaining">Time remaining:</string>
 
-
     <!--Enter treasure code-->
     <string name="enter_code_title">Enter Treasure Code</string>
     <string name="submit_code">Submit code</string>
     <string name="enter_code_text">Enter the code found in the treasure. If the code is correct, you win the game! You have three tries!</string>
     <string name="enter_code_hint">e.g. A very secret code</string>
+
+    <!--Losing screen-->
+    <string name="losing_screen_title">Better luck next time!</string>
+
 </resources>
