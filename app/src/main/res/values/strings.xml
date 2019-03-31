@@ -23,6 +23,11 @@
     <string name="hint_title">Hint</string>
     <string name="hint_text">You will find the next clue in a place that always runs but never walks, often murmurs, never talks, has a bed but never sleeps, has a mouth but never eats.</string>
 
+    <!--Main game screen-->
+    <string name="main_game_screen_text">How many hints are still missing?</string>
+    <string name="main_game_hint_button">Hint</string>
+    <string name="main_game_enter_code_button">Enter Treasure Code</string>
+
     <!--Live ranking-->
     <string name="live_ranking_title">Live Ranking</string>
     <string name="live_ranking_username">Username:</string>
