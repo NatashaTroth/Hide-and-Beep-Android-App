@@ -5,7 +5,14 @@
     <!--Img Content Description-->
     <string name="img_description_grass">Green grass field with a fence.</string>
     <string name="img_description_two_sheep">Two cartoon sheep.</string>
+    <string name="img_description_tick_button">Button with a tick on.</string>
+    <string name="img_description_sheep_hide">A sheep holding his eyes shut.</string>
 
+
+
+    <!--Show hint-->
+    <string name="hint_title">Hint title</string>
+    <string name="hint_text">You will find the next clue in a place that always runs but never walks, often murmurs, never talks, has a bed but never sleeps, has a mouth but never eats.</string>
 
     <!--Enter treasure code-->
     <string name="enter_code_title">Enter Treasure Code</string>
