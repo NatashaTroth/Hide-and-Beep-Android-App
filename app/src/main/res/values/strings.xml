@@ -7,8 +7,13 @@
     <string name="img_description_two_sheep">Two cartoon sheep.</string>
     <string name="img_description_tick_button">Button with a tick on.</string>
     <string name="img_description_sheep_hide">A sheep holding his eyes shut.</string>
+    <string name="img_description_logo">Hide and Beep logo.</string>
+    <string name="img_description_clouds">Clouds.</string>
+    <string name="img_description_sheep_looking">Sheep looking.</string>
 
 
+    <!--Homescreen-->
+    <string name="start_hunt">Start Scavenger Hunt</string>
 
     <!--Show hint-->
     <string name="hint_title">Hint title</string>

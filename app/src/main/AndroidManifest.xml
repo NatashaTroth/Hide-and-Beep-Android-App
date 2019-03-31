@@ -12,16 +12,16 @@
         android:windowSoftInputMode="adjustPan">
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"/>
-        <activity android:name=".HomescreenActivity"/>
-        <activity android:name=".PickHuntActivity" />
-        <activity android:name=".InstructionsActivity" />
-        <activity android:name=".HintActivity" >
-
+        <activity android:name=".HomescreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".PickHuntActivity" />
+        <activity android:name=".InstructionsActivity" />
+        <activity android:name=".HintActivity" >
         </activity>
         <activity android:name=".MainGameActivity" />
         <activity android:name=".WinActivity" />
