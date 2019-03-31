@@ -2,10 +2,14 @@
     <string name="app_name">Game App Project</string>
     <string name="back">Back</string>
 
+    <!--Img Content Description-->
+    <string name="img_description_grass">Green grass field with a fence.</string>
+    <string name="img_description_two_sheep">Two cartoon sheep.</string>
+
 
     <!--Enter treasure code-->
     <string name="enter_code_title">Enter Treasure Code</string>
     <string name="submit_code">Submit code</string>
     <string name="enter_code_text">Enter the code found in the treasure. If the code is correct, you win the game! You have three tries!</string>
-
+    <string name="enter_code_hint">e.g. A very secret code</string>
 </resources>
