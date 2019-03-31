@@ -44,7 +44,7 @@
         android:padding="5dp"
         android:stretchColumns="0"
         android:shrinkColumns="1"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/liveRankingBackBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
@@ -76,7 +76,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/liveRankingBackBtn"
         style="@style/buttonStyle"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"

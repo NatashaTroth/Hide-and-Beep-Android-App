@@ -36,7 +36,7 @@
         android:contentDescription="@string/img_description_grass"/>
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/losePlayAgainBtn"
         style="@style/buttonStyle"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@+id/losePlayAgainBtn"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_losersheep"
         android:contentDescription="@string/img_description_sheep_loser"/>

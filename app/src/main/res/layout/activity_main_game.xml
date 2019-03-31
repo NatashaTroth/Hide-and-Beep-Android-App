@@ -102,7 +102,7 @@
         app:layout_constraintVertical_bias="0.245" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/mainGameHintBtn"
         style="@style/buttonStyle"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
@@ -111,7 +111,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/mainGameEnterCodeBtn"
         style="@style/buttonStyle"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -120,7 +120,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
+        app:layout_constraintStart_toEndOf="@+id/mainGameHintBtn" />
 
     <TextView
         android:id="@+id/numberOfHintsLeft"
