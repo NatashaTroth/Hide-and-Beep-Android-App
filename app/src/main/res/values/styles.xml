@@ -29,6 +29,22 @@
         <item name="android:textSize">45sp</item>
     </style>
 
+     <!--<style name="grassStyle">-->
+        <!--<item name="android:layout_width">wrap_content</item>-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:layout_marginTop">333dp</item>-->
+        <!--<item name="app:layout_constraintBottom_toBottomOf">parent</item>-->
+        <!--<item name="app:layout_constraintBottom_toEndOf">parent</item>-->
+
+        <!--<item name="aapp:layout_constraintHorizontal_bias">1.0</item>-->
+        <!--<item name="app:layout_constraintStart_toStartOf">parent</item>-->
+        <!--<item name="app:layout_constraintStart_toTopOf">parent</item>-->
+        <!--<item name="app:layout_constraintVertical_bias">0.0</item>-->
+        <!--<item name="app:srcCompat">@drawable/ic_grass</item>-->
+        <!--<item name="android:contentDescription">@string/img_description_grass</item>-->
+    <!--</style>-->
+
+
     <!--<style name="GrassImage">-->
         <!--<item name="android:layout_width">wrap_content</item>-->
         <!--<item name="android:layout_height">wrap_content</item>-->
