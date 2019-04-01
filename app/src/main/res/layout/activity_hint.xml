@@ -4,6 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HintActivity">
+    tools:context=".HintActivity"
+    android:background="@drawable/background_gradient">
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="333dp"
+        android:contentDescription="@string/img_description_grass"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_grass" />
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/headingStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/hint_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--hint text from API (inserted via Java)-->
+    <TextView
+        android:id="@+id/hintText"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="36dp"
+        android:background="@color/backgroundBeige"
+        android:elevation="10dp"
+        android:gravity="center_horizontal"
+        android:lineHeight="25sp"
+        android:padding="20dp"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:text="@string/hint_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageButton
+        android:id="@+id/hintTickButton"
+        android:layout_width="99dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/hintText"
+        app:layout_constraintVertical_bias="0.504"
+        app:srcCompat="@drawable/ic_tick_button"
+        android:contentDescription="@string/img_description_tick_button"/>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="102dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="112dp"
+        app:layout_constraintStart_toEndOf="@+id/hintTickButton"
+        app:layout_constraintTop_toBottomOf="@+id/hintText"
+        app:srcCompat="@drawable/ic_hide2"
+        android:contentDescription="@string/img_description_sheep_hide"/>
+
+
 
 </android.support.constraint.ConstraintLayout>
