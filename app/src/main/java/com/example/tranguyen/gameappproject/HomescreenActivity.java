@@ -14,7 +14,6 @@ public class HomescreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homescreen);
 
 
-        //Click on "Start Scavenger Hunt" Button
         Button startHuntBtn = findViewById(R.id.startHuntBtn);
         startHuntBtn.setOnClickListener(new View.OnClickListener() {
             @Override
