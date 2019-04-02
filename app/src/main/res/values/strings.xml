@@ -46,4 +46,8 @@
     <!--Losing screen-->
     <string name="losing_screen_title">Better luck next time!</string>
 
+    <!--Instructions screen-->
+    <string name="instructions_screen_desc">When you hit start, you will receive your first hint. Follow the hint to a location, if you are close to the next queue, you phone will start beeping. Once you reach the correct location, you will receive the next hint. Eventually, you will find the final clue which will lead you to the treasure. The treasure will contain a secret code. Enter it into the app to win!
+Have fun!</string>
+
 </resources>

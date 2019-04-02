@@ -8,6 +8,16 @@
     android:background="@drawable/background_gradient">
 
     <ImageView
+        android:id="@+id/logoutBtn"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/img_description_clouds"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logout_button" />
+
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:padding="5dp"
@@ -39,13 +49,14 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="147dp"
-        android:layout_height="104dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="129dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:contentDescription="@string/img_description_clouds"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_3clouds"
-        android:contentDescription="@string/img_description_clouds"/>
+        app:srcCompat="@drawable/ic_3clouds" />
 
     <ImageView
         android:id="@+id/imageView7"

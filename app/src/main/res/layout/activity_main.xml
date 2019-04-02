@@ -37,6 +37,16 @@
         <!--android:layout_marginBottom="0dp"-->
         <!--android:src="@drawable/ic_grass" />-->
 
+    <ImageView
+        android:id="@+id/helpBtn"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="306dp"
+        android:layout_marginTop="9dp"
+        android:src="@drawable/ic_helpbtn" />
+
     <TextView
         android:textColor="#FF568B"
         android:textSize="50sp"
