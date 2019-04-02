@@ -40,6 +40,7 @@
     <ImageView
         android:id="@+id/helpBtn"
         android:layout_width="52dp"
+        android:contentDescription="@string/img_description_help"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -56,7 +57,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="26dp"
         android:layout_marginTop="168dp"
-        android:text="Login" />
+        android:text="@string/login_headline" />
 
     <TextView
         android:layout_width="159dp"
@@ -65,7 +66,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="43dp"
         android:layout_marginBottom="172dp"
-        android:text="Username"
+        android:text="@string/login_username"
         android:textColor="#FF8360"
         android:textSize="25sp" />
 
@@ -76,7 +77,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="42dp"
         android:layout_marginBottom="96dp"
-        android:text="Password"
+        android:text="@string/login_password"
         android:textColor="#FF8360"
         android:textSize="25sp" />
 
@@ -87,6 +88,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:contentDescription="@string/img_description_clouds"
         android:src="@drawable/ic_clouds2" />
 
     <ImageView
@@ -96,6 +98,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="305dp"
         android:layout_marginTop="160dp"
+        android:contentDescription="@string/img_description_clouds"
         android:src="@drawable/ic_clouds3" />
 
     <ImageView
@@ -105,6 +108,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="125dp"
         android:layout_marginTop="36dp"
+        android:contentDescription="@string/img_description_lock"
         android:src="@drawable/ic_login" />
 
     <ImageView
@@ -114,6 +118,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="347dp"
+        android:contentDescription="@string/img_description_sheep_with_key"
         android:src="@drawable/ic_loginsheep" />
 
     <ImageView
@@ -123,6 +128,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="93dp"
         android:layout_marginTop="210dp"
+        android:contentDescription="@string/img_description_speech_bubble"
         android:src="@drawable/ic_speechbubble" />
 
     <EditText
@@ -132,6 +138,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="152dp"
         android:layout_marginBottom="134dp"
+        android:contentDescription="@string/edit_username"
         android:inputType="text" />
 
     <EditText
@@ -141,6 +148,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="152dp"
         android:layout_marginBottom="57dp"
+        android:contentDescription="@string/edit_password"
         android:inputType="text" />
 
     <Button
@@ -151,6 +159,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-57dp"
         android:layout_marginEnd="12dp"
-        android:text="Login" />
+        android:text="@string/login_headline" />
 
 </RelativeLayout>

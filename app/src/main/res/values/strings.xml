@@ -17,6 +17,14 @@
     <string name="img_description_alarm_bell">Red alarm bell.</string>
     <string name="img_description_location_circle">A circle using colors to indicate how close the next hint is.</string>
     <string name="img_description_sheep_sign">Sheep looking and holding a sign with the amount of time left for the game.</string>
+    <string name="img_description_owl">Owl sitting on a branch.</string>
+    <string name="img_description_logout">Button with a door - Logout.</string>
+    <string name="img_description_help">Button with a questionmark - Help.</string>
+    <string name="img_description_liferanking">Button with a list on - Liferanking.</string>
+    <string name="img_description_sheep_winner">Two sheeps looking and holding balloons.</string>
+    <string name="img_description_lock">A big lock with lots of different sheeps in it.</string>
+    <string name="img_description_sheep_with_key">Sheep standing with a key.</string>
+    <string name="img_description_speech_bubble">A speech bubble with a treasure.</string>
 
 
     <!--Homescreen-->
@@ -49,5 +57,28 @@
     <!--Instructions screen-->
     <string name="instructions_screen_desc">When you hit start, you will receive your first hint. Follow the hint to a location, if you are close to the next queue, you phone will start beeping. Once you reach the correct location, you will receive the next hint. Eventually, you will find the final clue which will lead you to the treasure. The treasure will contain a secret code. Enter it into the app to win!
 Have fun!</string>
+    <string name="instructions_headline">Instructions</string>
+    <string name="instructions_btn">Start Scavenger hunt</string>
+
+
+    <!--Help screen-->
+    <string name="help_headline">Help</string>
+    <string name="backbtn_helpscreen">Back</string>
+    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hunt and Beep website.  Create an account on the website and login to it here on to the app. When creating a scavenger hunt on the website, you can add participants with accounts to participate. On the app you can pick a scavenger hunt your account has been assigned to.</string>
+
+    <!--Pick hunt screen-->
+    <string name="pick_hunt_headline">Pick a hunt: </string>
+    <string name="pick_hunt_nextbtn">Next </string>
+
+    <!--Winning screen-->
+    <string name="winning_headline">Congratulations, you found the treasure!</string>
+
+    <!--Login screen-->
+    <string name="login_headline">Login</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+
+    <string name="edit_username">Input field for username.</string>
+    <string name="edit_password">Input field for password.</string>
 
 </resources>
