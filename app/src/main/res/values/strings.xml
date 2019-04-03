@@ -80,5 +80,7 @@ Have fun!</string>
 
     <string name="edit_username">Input field for username.</string>
     <string name="edit_password">Input field for password.</string>
+    <string name="img_description_keylock_with_sheep">A black keylock with all the different sheep in it.</string>
+    <string name="img_description_logout_button">Logout Button.</string>
 
 </resources>
