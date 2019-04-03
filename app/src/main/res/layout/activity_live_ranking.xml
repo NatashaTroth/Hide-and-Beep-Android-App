@@ -7,53 +7,8 @@
     tools:context=".LiveRankingActivity"
     android:background="@drawable/background_gradient">
 
-    <ImageView
-        android:id="@+id/homeOwl"
-        android:layout_width="82dp"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_owlhome" />
-
-    <ImageView
-        android:id="@+id/liveRankingBtn"
-        android:layout_width="52dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.731"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.013"
-        app:srcCompat="@drawable/ic_ranking_button" />
-
-    <ImageView
-        android:id="@+id/logoutBtn"
-        android:layout_width="52dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.013"
-        app:srcCompat="@drawable/ic_logout_button" />
-
-    <ImageView
-        android:id="@+id/helpBtn"
-        android:layout_width="52dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.013"
-        app:srcCompat="@drawable/ic_helpbtn" />
+    <include layout="@layout/nav_bar_home_btn"/>
+    <include layout="@layout/nav_bar_three_orange_btns"/>
 
     <TextView
         android:id="@+id/textView4"
