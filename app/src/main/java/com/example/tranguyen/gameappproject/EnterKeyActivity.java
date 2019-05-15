@@ -23,15 +23,6 @@ public class EnterKeyActivity extends AppCompatActivity {
             }
         });
 
-        ImageView logoutBtn = findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EnterKeyActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         ImageView helpBtn = findViewById(R.id.helpBtn);
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override

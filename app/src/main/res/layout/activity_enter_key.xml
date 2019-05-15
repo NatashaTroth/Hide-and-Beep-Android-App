@@ -12,7 +12,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/nav_bar_two_orange_btns" />
+        layout="@layout/help_button" />
 
     <ImageView
         android:id="@+id/imageView4"

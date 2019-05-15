@@ -10,19 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
+        <!--<activity-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:name=".MainActivity"-->
+            <!--android:windowSoftInputMode="adjustPan|adjustResize">-->
+            <!---->
+        <!--</activity>-->
         <activity
             android:screenOrientation="portrait"
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:name=".HomescreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".HomescreenActivity"></activity>
         <activity
             android:screenOrientation="portrait"
             android:name=".EnterKeyActivity"

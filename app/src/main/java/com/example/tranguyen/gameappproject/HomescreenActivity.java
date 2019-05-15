@@ -14,15 +14,6 @@ public class HomescreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
 
-        ImageView logoutBtn = findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomescreenActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         Button startHuntBtn = findViewById(R.id.startHuntBtn);
         startHuntBtn.setOnClickListener(new View.OnClickListener() {
             @Override

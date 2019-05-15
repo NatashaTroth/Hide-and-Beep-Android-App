@@ -23,24 +23,6 @@ public class LoseActivity extends AppCompatActivity {
             }
         });
 
-//        ImageView liveRankingBtn = findViewById(R.id.liveRankingBtn);
-//        liveRankingBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(LoseActivity.this, LiveRankingActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        ImageView logoutBtn = findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoseActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         ImageView helpBtn = findViewById(R.id.helpBtn);
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
