@@ -23,14 +23,14 @@ public class WinActivity extends AppCompatActivity {
             }
         });
 
-        ImageView liveRankingBtn = findViewById(R.id.liveRankingBtn);
-        liveRankingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WinActivity.this, LiveRankingActivity.class);
-                startActivity(intent);
-            }
-        });
+//        ImageView liveRankingBtn = findViewById(R.id.liveRankingBtn);
+//        liveRankingBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(WinActivity.this, LiveRankingActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         ImageView logoutBtn = findViewById(R.id.logoutBtn);
         logoutBtn.setOnClickListener(new View.OnClickListener() {

@@ -44,9 +44,6 @@
             android:name=".LoseActivity"></activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".LiveRankingActivity"></activity>
-        <activity
-            android:screenOrientation="portrait"
             android:name=".EnterCodeActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity android:name=".HelpActivity"></activity>

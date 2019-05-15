@@ -9,7 +9,7 @@
 
 
     <include layout="@layout/nav_bar_home_btn"/>
-    <include layout="@layout/nav_bar_three_orange_btns"/>
+    <include layout="@layout/nav_bar_two_orange_btns"/>
 
 
     <ImageView
