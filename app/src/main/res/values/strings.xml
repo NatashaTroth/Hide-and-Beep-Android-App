@@ -30,6 +30,11 @@
     <!--Homescreen-->
     <string name="start_hunt">Start Scavenger Hunt</string>
 
+    <!--Enter Key-->
+    <string name="enter_key_hint">Enter Key</string>
+    <string name="enter_key_headline">Enter hunt key: </string>
+    <string name="enter_key_nextbtn">Next </string>
+
     <!--Show hint-->
     <string name="hint_title">Hint</string>
     <string name="hint_text">You will find the next clue in a place that always runs but never walks, often murmurs, never talks, has a bed but never sleeps, has a mouth but never eats.</string>
@@ -66,9 +71,6 @@ Have fun!</string>
     <string name="backbtn_helpscreen">Back</string>
     <string name="help_desc_screen">You can create and organise scavenger hunts on the Hunt and Beep website.  Create an account on the website and login to it here on to the app. When creating a scavenger hunt on the website, you can add participants with accounts to participate. On the app you can pick a scavenger hunt your account has been assigned to.</string>
 
-    <!--Pick hunt screen-->
-    <string name="pick_hunt_headline">Pick a hunt: </string>
-    <string name="pick_hunt_nextbtn">Next </string>
 
     <!--Winning screen-->
     <string name="winning_headline">Congratulations, you found the treasure!</string>

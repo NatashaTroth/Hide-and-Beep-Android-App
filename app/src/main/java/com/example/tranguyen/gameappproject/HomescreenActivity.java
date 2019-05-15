@@ -27,7 +27,7 @@ public class HomescreenActivity extends AppCompatActivity {
         startHuntBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomescreenActivity.this, PickHuntActivity.class);
+                Intent intent = new Intent(HomescreenActivity.this, EnterKeyActivity.class);
                 startActivity(intent);
             }
         });

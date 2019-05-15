@@ -25,7 +25,8 @@
             android:name=".HomescreenActivity"></activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".PickHuntActivity" />
+            android:name=".EnterKeyActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:screenOrientation="portrait"
             android:name=".InstructionsActivity" />

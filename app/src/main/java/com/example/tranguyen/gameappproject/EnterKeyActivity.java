@@ -7,18 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class PickHuntActivity extends AppCompatActivity {
+public class EnterKeyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pick_hunt);
+        setContentView(R.layout.activity_enter_key);
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PickHuntActivity.this, HomescreenActivity.class);
+                Intent intent = new Intent(EnterKeyActivity.this, HomescreenActivity.class);
                 startActivity(intent);
             }
         });
@@ -27,7 +27,7 @@ public class PickHuntActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PickHuntActivity.this, MainActivity.class);
+                Intent intent = new Intent(EnterKeyActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -36,7 +36,7 @@ public class PickHuntActivity extends AppCompatActivity {
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PickHuntActivity.this, HelpActivity.class);
+                Intent intent = new Intent(EnterKeyActivity.this, HelpActivity.class);
                 startActivity(intent);
             }
         });
@@ -45,7 +45,7 @@ public class PickHuntActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PickHuntActivity.this, InstructionsActivity.class);
+                Intent intent = new Intent(EnterKeyActivity.this, InstructionsActivity.class);
                 startActivity(intent);
             }
         });
