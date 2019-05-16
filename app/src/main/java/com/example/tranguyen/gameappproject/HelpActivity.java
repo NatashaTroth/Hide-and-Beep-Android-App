@@ -19,7 +19,7 @@ public class HelpActivity extends AppCompatActivity {
         final Class nextActivityClass;
         final Hunt hunt;
         final Hint[] hints;
-        final int currentHint;
+       // final int currentHint;
 
 
 
@@ -35,12 +35,12 @@ public class HelpActivity extends AppCompatActivity {
             //get Extras
             hunt = (Hunt) getIntent().getSerializableExtra("hunt");
             hints = (Hint[]) getIntent().getSerializableExtra("hints");
-            currentHint = getIntent().getExtras().getInt("currentHint");
+            //currentHint = getIntent().getExtras().getInt("currentHint");
         }
         else{
              hunt = null;
              hints = null;
-             currentHint = 0;
+             //currentHint = 0;
         }
 
 
@@ -54,7 +54,7 @@ public class HelpActivity extends AppCompatActivity {
                 if(hunt != null) {
                     intent.putExtra("hunt", (Serializable) hunt);
                     intent.putExtra("hints", (Serializable) hints);
-                    intent.putExtra("currentHint", currentHint);
+                    //intent.putExtra("currentHint", currentHint);
                 }
                 startActivity(intent);
             }

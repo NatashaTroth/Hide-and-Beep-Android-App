@@ -246,7 +246,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
         intent.putExtra("hunt",(Serializable) hunt);
         intent.putExtra("hints",(Serializable) hints);
-        intent.putExtra("currentHint", 0);  //initialise to know which is the currentHint
+       // intent.putExtra("currentHint", 0);  //initialise to know which is the currentHint
 
 
         startActivity(intent);

@@ -22,10 +22,10 @@ public class HintActivity extends AppCompatActivity {
         //get Extras
         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
-        final int currentHint = getIntent().getExtras().getInt("currentHint");
+       // final int currentHint = getIntent().getExtras().getInt("currentHint");
 
         TextView hintTextView = (TextView) findViewById(R.id.hintText);
-        hintTextView.setText(hints[currentHint].getText());
+        hintTextView.setText(hints[hunt.currentHint].getText());
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +43,7 @@ public class HintActivity extends AppCompatActivity {
                 Intent intent = new Intent(HintActivity.this, HelpActivity.class);
                 intent.putExtra("hunt",(Serializable) hunt);
                 intent.putExtra("hints",(Serializable) hints);
-                intent.putExtra("currentHint", currentHint);
+                //intent.putExtra("currentHint", currentHint);
                 intent.putExtra("sourceClass", HintActivity.class);
                 startActivity(intent);
             }
@@ -57,7 +57,7 @@ public class HintActivity extends AppCompatActivity {
                 Intent intent = new Intent(HintActivity.this, MainGameActivity.class);
                 intent.putExtra("hunt",(Serializable) hunt);
                 intent.putExtra("hints",(Serializable) hints);
-                intent.putExtra("currentHint", currentHint);
+               // intent.putExtra("currentHint", currentHint);
                 startActivity(intent);
             }
         });

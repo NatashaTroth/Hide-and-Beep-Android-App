@@ -14,6 +14,10 @@ public class Hunt implements Serializable {
     private Boolean noTimeLimit;
     private String winningCode;
 
+    public int currentHint;
+    public int enterCodeTries;
+
+
    // private String authKey;
 
     public Hunt(int id, String name, Date startDate, Date expiryDate, Date timeLimit, Boolean noTimeLimit, String winningCode){
@@ -25,6 +29,8 @@ public class Hunt implements Serializable {
         this.noTimeLimit = noTimeLimit;
         this.winningCode = winningCode;
         //this.authKey = auth_key;
+        enterCodeTries = 3;
+        currentHint = 0;
 
     }
 
