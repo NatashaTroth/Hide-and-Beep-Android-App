@@ -33,7 +33,7 @@
     <!--Enter Auth Key-->
     <string name="enter_auth_key_hint">Enter Key</string>
     <string name="enter_auth_key_headline">Enter hunt key: </string>
-    <string name="enter_auth_key_nextbtn">Next </string>
+    <string name="enter_auth_key_nextbtn">Load hunt </string>
 
     <!--Show hint-->
     <string name="hint_title">Hint</string>

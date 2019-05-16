@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EnterAuthKeyActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +70,18 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Hunt hunt = null;
 
                 try {
-                    getHuntAndGotToInstructions("ujyYamORdh");
+                    loadHuntAndGoToInstructions("ujyYamORdh");
                 }
                 catch(Exception e){
                     //todo: tell user wrong auth code
                 }
+
+                final TextView textView = (TextView) findViewById(R.id.instuctionsTextView);
+                if(hunt != null)
+                textView.setText("Got hunt " + hunt.getId());
 
 //                Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
 //                startActivity(intent);
@@ -83,19 +91,16 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 
     }
 
-    public void getHuntAndGotToInstructions(String authKey){
-
-        //final Hunt hunt;
-
+    public void loadHuntAndGoToInstructions(String authKey){
         final TextView textView = (TextView) findViewById(R.id.instuctionsTextView);
-        textView.setText("In get hunt");
+        textView.setText("\n\n\nInLoadHuntAdn...");
 
-        // Instantiate the RequestQueue.
         String url = "https://hide-and-beep.projects.multimediatechnology.at/hunt.json?auth_key=" + authKey;
 
         JsonObjectRequest request = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
+                   // Hunt hunt;
                     @Override
                     public void onResponse(JSONObject responseHunt) {
                         Log.v("VolleyResponse","Response: " + responseHunt.toString());
@@ -107,34 +112,30 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                             String timeLimitStr = responseHunt.getString("set_time_limit");
                             Boolean noTimeLimit = responseHunt.getBoolean("no_time_limit");
                             String winningCode = responseHunt.getString("winning_code");
-                            textView.setText("successful " + expiryDateStr + "   " + timeLimitStr);
 
+                            //getDates
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
                             Date startDate = null;
                             Date expiryDate = null;
-                            Date timeLimitDate = null;
+                            Date timeLimit = null;
 
                             try {
                                 startDate = simpleDateFormat.parse(startDateStr);
                                 expiryDate = simpleDateFormat.parse(expiryDateStr);
-                                timeLimitDate = simpleTimeFormat.parse(timeLimitStr);
-                                //timeLimitStr = new SimpleDateFormat("HH:mm").format(timeLimitDate);   //To make a string with hh:mm
+                                timeLimit = simpleTimeFormat.parse(timeLimitStr);
+                                //timeLimitStr = new SimpleDateFormat("HH:mm").format(timeLimit);   //To make a string with hh:mm
                                 //textView.setText("\n\n\nTime: " + timeLimitStr);
-
-
 
                             } catch (ParseException e) {
                                 e.printStackTrace();
                                // textView.setText("ERROR\n\nDATES: " + e);
                                 throw new Exception("Unable to parse the dates.");
-
                             }
 
-                            Hunt hunt = new Hunt(id, name, startDate, expiryDate, timeLimitDate, noTimeLimit, winningCode);
-                            Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
-                            intent.putExtra("hunt", (Serializable) hunt);
-                            startActivity(intent);
+                            Hunt hunt = new Hunt(id, name, startDate, expiryDate, timeLimit, noTimeLimit, winningCode);
+
+                            fetchHints(hunt);
 
 
                         } catch (JSONException e) {
@@ -144,7 +145,6 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                             e.printStackTrace();
                            // throw new Exception("Unable to get Hunt.");
                             return;
-
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -152,13 +152,87 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                     // TODO: Handle error
-                    textView.setText("failed " + error);
+                    //textView.setText("failed " + error);
                     return;
 
                     }
                 });
 
         MySingleton.getInstance(this).addToRequestQueue(request);
+    }
 
+    private void fetchHints(final Hunt hunt){
+        final TextView textView2 = (TextView) findViewById(R.id.instuctionsTextView);
+        textView2.setText("\n\n\nIn fetch hints...");
+        String url = "https://hide-and-beep.projects.multimediatechnology.at/hints.json?hunt_id=" + hunt.getId();
+
+        JsonArrayRequest request = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+                    // Hunt hunt;
+                    @Override
+                    public void onResponse(JSONArray responseArray) {
+                        Log.v("VolleyResponse","Response: " + responseArray.toString());
+                       // textView2.setText("\n\nSuccess Hints " + responseArray.length());
+                        Hint[] hints = new Hint[responseArray.length()];
+
+                        try {
+                            for(int i = 0; i < responseArray.length(); i++) {
+
+                                //textView2.append("Hint text: " + i);
+                                // Get current json object
+                                JSONObject responseHint = responseArray.getJSONObject(i);
+
+                                int id = responseHint.getInt("id");
+
+//                                //TODO: CHANGE AFTER REFACTORING RAILS - DO WE EVEN NEED POSITION - order in rails???
+//                                int position;
+//                                if(responseHint.has("position"))
+//                                    responseHint.getInt("position");
+//                                else
+//                                    position = i;
+
+                                textView2.append("Hint text: " + i);
+                                double latitude = responseHint.getDouble("latitude");
+                                double longitude = responseHint.getDouble("longitude");
+                                String text = responseHint.getString("text");
+
+                                hints[i] = new Hint(id, latitude, longitude, text);
+                                //textView2.append("END: " + i);
+
+                            }
+
+                           // textView2.setText("failed Hints " + hints[1]);
+
+                            goToInstructions(hunt, hints);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                            // throw new Exception("Unable to get Hunt.");
+                            return;
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        textView2.setText("failed Hints " + error);
+                        return;
+
+                    }
+                });
+
+        MySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+
+    private void goToInstructions(Hunt hunt, Hint[] hints){
+        final TextView textView3 = (TextView) findViewById(R.id.instuctionsTextView);
+        textView3.setText("in goto instructions ");
     }
 }

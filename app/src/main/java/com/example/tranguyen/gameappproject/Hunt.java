@@ -13,6 +13,7 @@ public class Hunt implements Serializable {
     private Date timeLimit;
     private Boolean noTimeLimit;
     private String winningCode;
+
    // private String authKey;
 
     public Hunt(int id, String name, Date startDate, Date expiryDate, Date timeLimit, Boolean noTimeLimit, String winningCode){
@@ -27,30 +28,28 @@ public class Hunt implements Serializable {
 
     }
 
+//    public Hunt(){
+//
+//    }
+
     public int getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public Date getStartDate() {
         return startDate;
     }
-
     public Date getExpiryDate() {
         return expiryDate;
     }
-
     public Date getTimeLimit() {
         return timeLimit;
     }
-
     public Boolean getNoTimeLimit() {
         return noTimeLimit;
     }
-
     public String getWinningCode() {
         return winningCode;
     }
