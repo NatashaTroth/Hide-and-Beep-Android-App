@@ -30,10 +30,10 @@
     <!--Homescreen-->
     <string name="start_hunt">Start Scavenger Hunt</string>
 
-    <!--Enter Key-->
-    <string name="enter_key_hint">Enter Key</string>
-    <string name="enter_key_headline">Enter hunt key: </string>
-    <string name="enter_key_nextbtn">Next </string>
+    <!--Enter Auth Key-->
+    <string name="enter_auth_key_hint">Enter Key</string>
+    <string name="enter_auth_key_headline">Enter hunt key: </string>
+    <string name="enter_auth_key_nextbtn">Next </string>
 
     <!--Show hint-->
     <string name="hint_title">Hint</string>

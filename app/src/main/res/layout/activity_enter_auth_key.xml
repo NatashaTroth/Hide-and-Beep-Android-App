@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EnterKeyActivity"
+    tools:context=".EnterAuthKeyActivity"
     android:background="@drawable/background_gradient">
 
 
@@ -58,7 +58,7 @@
         style="@style/buttonStyle"
         android:layout_width="115dp"
         android:layout_height="48dp"
-        android:text="@string/enter_key_nextbtn"
+        android:text="@string/enter_auth_key_nextbtn"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.673"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,7 @@
         android:layout_marginTop="152dp"
         android:layout_marginEnd="80dp"
         android:gravity="center_horizontal"
-        android:text="@string/enter_key_headline"
+        android:text="@string/enter_auth_key_headline"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="@+id/clouds"
         app:layout_constraintHorizontal_bias="1.0"
@@ -88,7 +88,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
-        android:autofillHints="@string/enter_key_hint"
+        android:autofillHints="@string/enter_auth_key_hint"
         android:background="@color/backgroundBeige"
         android:ems="10"
         android:inputType="textPersonName"

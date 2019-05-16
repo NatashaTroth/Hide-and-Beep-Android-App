@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 public class HomescreenActivity extends AppCompatActivity {
 
@@ -18,7 +17,7 @@ public class HomescreenActivity extends AppCompatActivity {
         startHuntBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomescreenActivity.this, EnterKeyActivity.class);
+                Intent intent = new Intent(HomescreenActivity.this, EnterAuthKeyActivity.class);
                 startActivity(intent);
             }
         });

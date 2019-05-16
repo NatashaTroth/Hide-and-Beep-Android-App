@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class EnterKeyActivity extends AppCompatActivity {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class EnterAuthKeyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_key);
+        setContentView(R.layout.activity_enter_auth_key);
 
         setOnclickEventListeners();
 
@@ -26,7 +30,7 @@ public class EnterKeyActivity extends AppCompatActivity {
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EnterKeyActivity.this, HomescreenActivity.class);
+                Intent intent = new Intent(EnterAuthKeyActivity.this, HomescreenActivity.class);
                 startActivity(intent);
             }
         });
@@ -35,7 +39,7 @@ public class EnterKeyActivity extends AppCompatActivity {
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EnterKeyActivity.this, HelpActivity.class);
+                Intent intent = new Intent(EnterAuthKeyActivity.this, HelpActivity.class);
                 startActivity(intent);
             }
         });
@@ -44,10 +48,36 @@ public class EnterKeyActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EnterKeyActivity.this, InstructionsActivity.class);
+                Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
                 startActivity(intent);
             }
         });
+
+    }
+
+    public Hunt getHunt(){
+        //maybe double check auth key is correct
+
+        String startDateStr = "2016/10/29 00:00:00";
+        String expiryDateStr = "2016/11/12 23:59:59";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date startDate = null;
+        Date expiryDate = null;
+
+        try {
+            startDate = sdf.parse(startDateStr);
+            expiryDate = sdf.parse(expiryDateStr);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //long millis = date.getTime();
+
+
+
+        return new Hunt(1, "My Test Hunt", startDate, expiryDate, 55.6, false, "myWinnningcode" );
+
 
     }
 }

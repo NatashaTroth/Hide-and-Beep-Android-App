@@ -10,6 +10,8 @@ public class EnterCodeActivityTest {
 
     @Test
     public void getHuntIdFromAuthKey() {
+//        EnterCod
+//        Activity.getHunt();
         assertEquals(4, 2 + 2);
 
 
