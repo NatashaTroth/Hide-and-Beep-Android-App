@@ -43,9 +43,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 
         setOnclickEventListeners();
 
-
     }
-
 
 
     private void setOnclickEventListeners(){
@@ -75,6 +73,9 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.editTextKey);
                 String inputAuthKey = editText.getText().toString();
+
+                //TODO: REMOVE - JUST FOR TESTING
+                inputAuthKey = "hLX8E0uLEG";
 
                 try {
                     loadHuntAndGoToInstructions(inputAuthKey);
@@ -244,6 +245,8 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
         intent.putExtra("hunt",(Serializable) hunt);
         intent.putExtra("hints",(Serializable) hints);
+        intent.putExtra("currentHint", 0);  //initialise to know which is the currentHint
+
         startActivity(intent);
 
 

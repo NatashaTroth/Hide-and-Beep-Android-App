@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.io.Serializable;
 
 public class HintActivity extends AppCompatActivity {
 
@@ -14,6 +17,15 @@ public class HintActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hint);
+
+
+        //get Extras
+        final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
+        final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
+        final int currentHint = getIntent().getExtras().getInt("currentHint");
+
+        TextView hintTextView = (TextView) findViewById(R.id.hintText);
+        hintTextView.setText(hints[currentHint].getText());
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +51,9 @@ public class HintActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HintActivity.this, MainGameActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
                 startActivity(intent);
             }
         });

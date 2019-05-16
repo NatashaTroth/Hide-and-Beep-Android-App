@@ -22,6 +22,7 @@ public class InstructionsActivity extends AppCompatActivity {
         //Bundle extras = getIntent().getExtras();
         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
+        final int currentHint = getIntent().getExtras().getInt("currentHint");
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +49,7 @@ public class InstructionsActivity extends AppCompatActivity {
                 Intent intent = new Intent(InstructionsActivity.this, HintActivity.class);
                 intent.putExtra("hunt",(Serializable) hunt);
                 intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
                 startActivity(intent);
             }
         });
