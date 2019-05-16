@@ -7,12 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.Serializable;
+
 public class MainGameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+
+        //get Extras
+        final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
+        final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
+        final int currentHint = getIntent().getExtras().getInt("currentHint");
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +35,10 @@ public class MainGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainGameActivity.this, HelpActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
+                intent.putExtra("sourceClass", MainGameActivity.class);
                 startActivity(intent);
             }
         });
@@ -38,6 +49,9 @@ public class MainGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainGameActivity.this, HintActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
                 startActivity(intent);
             }
         });
@@ -48,6 +62,9 @@ public class MainGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
                 startActivity(intent);
             }
         });

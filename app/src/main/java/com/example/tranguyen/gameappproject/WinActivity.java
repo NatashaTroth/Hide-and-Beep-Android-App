@@ -28,6 +28,7 @@ public class WinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WinActivity.this, HelpActivity.class);
+                intent.putExtra("sourceClass", WinActivity.class);
                 startActivity(intent);
             }
         });

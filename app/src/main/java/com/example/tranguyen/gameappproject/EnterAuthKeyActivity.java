@@ -62,6 +62,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EnterAuthKeyActivity.this, HelpActivity.class);
+                intent.putExtra("sourceClass", EnterAuthKeyActivity.class);
                 startActivity(intent);
             }
         });
@@ -246,6 +247,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         intent.putExtra("hunt",(Serializable) hunt);
         intent.putExtra("hints",(Serializable) hints);
         intent.putExtra("currentHint", 0);  //initialise to know which is the currentHint
+
 
         startActivity(intent);
 

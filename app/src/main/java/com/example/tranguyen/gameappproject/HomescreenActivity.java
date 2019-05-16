@@ -18,6 +18,7 @@ public class HomescreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomescreenActivity.this, EnterAuthKeyActivity.class);
+                //intent.putExtra("sourceClass", HomescreenActivity.class);
                 startActivity(intent);
             }
         });

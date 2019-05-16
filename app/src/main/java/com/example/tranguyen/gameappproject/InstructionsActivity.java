@@ -38,6 +38,10 @@ public class InstructionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InstructionsActivity.this, HelpActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
+                intent.putExtra("sourceClass", InstructionsActivity.class);
                 startActivity(intent);
             }
         });

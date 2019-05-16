@@ -41,6 +41,10 @@ public class HintActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HintActivity.this, HelpActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                intent.putExtra("currentHint", currentHint);
+                intent.putExtra("sourceClass", HintActivity.class);
                 startActivity(intent);
             }
         });
