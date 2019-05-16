@@ -12,9 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -152,6 +158,21 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                     // TODO: Handle error
+                        Toast toast =  Toast.makeText(getApplicationContext(), "Something went wrong. Try again later!", Toast.LENGTH_SHORT);
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            toast = Toast.makeText(getApplicationContext(), "Communication Error! Connect to internet!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof AuthFailureError) {
+                           toast = Toast.makeText(getApplicationContext(), "Authentication Error!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof ServerError) {
+                            toast = Toast.makeText(getApplicationContext(), "Server Side Error!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof NetworkError) {
+                            toast = Toast.makeText(getApplicationContext(), "Network Error!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof ParseError) {
+                            toast = Toast.makeText(getApplicationContext(), "Parse Error!", Toast.LENGTH_SHORT);
+                        }
+
+                        toast.setGravity(Gravity.TOP, 0, 50);
+                        toast.show();
                    //textView.setText("failed " + error);
                     return;
 
@@ -221,6 +242,21 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
+                        Toast toast =  Toast.makeText(getApplicationContext(), "Something went wrong. Try again later!", Toast.LENGTH_SHORT);
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            toast = Toast.makeText(getApplicationContext(), "Communication Error! Connect to internet!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof AuthFailureError) {
+                            toast = Toast.makeText(getApplicationContext(), "Authentication Error!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof ServerError) {
+                            toast = Toast.makeText(getApplicationContext(), "Server Side Error!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof NetworkError) {
+                            toast = Toast.makeText(getApplicationContext(), "Network Error!", Toast.LENGTH_SHORT);
+                        } else if (error instanceof ParseError) {
+                            toast = Toast.makeText(getApplicationContext(), "Parse Error!", Toast.LENGTH_SHORT);
+                        }
+
+                        toast.setGravity(Gravity.TOP, 0, 50);
+                        toast.show();
                         //textView2.setText("failed Hints " + error);
                         return;
 

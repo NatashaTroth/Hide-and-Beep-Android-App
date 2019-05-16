@@ -23,7 +23,6 @@ public class EnterCodeActivity extends AppCompatActivity {
         //get Extras
         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
-        //final int currentHint = getIntent().getExtras().getInt("currentHint");
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
