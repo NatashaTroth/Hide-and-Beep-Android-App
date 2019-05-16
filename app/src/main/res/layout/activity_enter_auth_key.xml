@@ -53,6 +53,15 @@
         app:layout_constraintVertical_bias="0.052"
         app:srcCompat="@drawable/ic_clouds2" />
 
+
+    <TextView
+        android:id="@+id/instuctionsTextView"
+        android:layout_width="191dp"
+        android:layout_height="278dp"
+        android:layout_marginTop="124dp"
+        android:text="@string/instructions_screen_desc"
+        android:textSize="15sp" />
+
     <Button
         android:id="@+id/nextBtn"
         style="@style/buttonStyle"
