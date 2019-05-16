@@ -14,6 +14,14 @@ public class EnterKeyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_key);
 
+        setOnclickEventListeners();
+
+    }
+
+
+
+    private void setOnclickEventListeners(){
+        //Set OnClickEventListeners
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,5 +48,6 @@ public class EnterKeyActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 }
