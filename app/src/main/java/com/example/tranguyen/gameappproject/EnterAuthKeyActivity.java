@@ -80,7 +80,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         textView.setText("In get hunt");
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
+       // RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
         String url = "https://hide-and-beep.projects.multimediatechnology.at/hunt.json?auth_key=" + authKey;
 
         JsonObjectRequest request = new JsonObjectRequest
@@ -108,15 +108,8 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         //Log.v("RESULTCOUNT", Integer.toString(resultCount));
 
         // Add the request to the RequestQueue.
-            queue.add(request);
-
-
-
-
-
-
-
-
+           // queue.add(request);
+        MySingleton.getInstance(this).addToRequestQueue(request);
 
         //maybe double check auth key is correct
 
