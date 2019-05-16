@@ -18,9 +18,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,7 +67,13 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getHunt("ujyYamORdh");
+
+                try {
+                    getHuntAndGotToInstructions("ujyYamORdh");
+                }
+                catch(Exception e){
+                    //todo: tell user wrong auth code
+                }
 
 //                Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
 //                startActivity(intent);
@@ -74,65 +83,82 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 
     }
 
-    public Hunt getHunt(String authKey){
+    public void getHuntAndGotToInstructions(String authKey){
+
+        //final Hunt hunt;
 
         final TextView textView = (TextView) findViewById(R.id.instuctionsTextView);
         textView.setText("In get hunt");
 
         // Instantiate the RequestQueue.
-       // RequestQueue queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
         String url = "https://hide-and-beep.projects.multimediatechnology.at/hunt.json?auth_key=" + authKey;
 
         JsonObjectRequest request = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.v("VolleyResponse","Response: " + response.toString());
-                        textView.setText("successful " + response);
+                    public void onResponse(JSONObject responseHunt) {
+                        Log.v("VolleyResponse","Response: " + responseHunt.toString());
+                        try {
+                            int id = responseHunt.getInt("id");
+                            String name = responseHunt.getString("name");
+                            String startDateStr = responseHunt.getString("start_date");
+                            String expiryDateStr = responseHunt.getString("expiry_date");
+                            String timeLimitStr = responseHunt.getString("set_time_limit");
+                            Boolean noTimeLimit = responseHunt.getBoolean("no_time_limit");
+                            String winningCode = responseHunt.getString("winning_code");
+                            textView.setText("successful " + expiryDateStr + "   " + timeLimitStr);
+
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                            Date startDate = null;
+                            Date expiryDate = null;
+                            Date timeLimitDate = null;
+
+                            try {
+                                startDate = simpleDateFormat.parse(startDateStr);
+                                expiryDate = simpleDateFormat.parse(expiryDateStr);
+                                timeLimitDate = simpleTimeFormat.parse(timeLimitStr);
+                                //timeLimitStr = new SimpleDateFormat("HH:mm").format(timeLimitDate);   //To make a string with hh:mm
+                                //textView.setText("\n\n\nTime: " + timeLimitStr);
 
 
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                               // textView.setText("ERROR\n\nDATES: " + e);
+                                throw new Exception("Unable to parse the dates.");
+
+                            }
+
+                            Hunt hunt = new Hunt(id, name, startDate, expiryDate, timeLimitDate, noTimeLimit, winningCode);
+                            Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
+                            intent.putExtra("hunt", (Serializable) hunt);
+                            startActivity(intent);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                           // throw new Exception("Unable to get Hunt.");
+                            return;
+
+                        }
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        textView.setText("failed " + error);
-
+                    // TODO: Handle error
+                    textView.setText("failed " + error);
+                    return;
 
                     }
                 });
 
-
-        //Log.v("RESULTCOUNT", Integer.toString(resultCount));
-
-        // Add the request to the RequestQueue.
-           // queue.add(request);
         MySingleton.getInstance(this).addToRequestQueue(request);
-
-        //maybe double check auth key is correct
-
-        String startDateStr = "2016/10/29 00:00:00";
-        String expiryDateStr = "2016/11/12 23:59:59";
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date startDate = null;
-        Date expiryDate = null;
-
-        try {
-            startDate = sdf.parse(startDateStr);
-            expiryDate = sdf.parse(expiryDateStr);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //long millis = date.getTime();
-
-
-
-        return new Hunt(1, "My Test Hunt", startDate, expiryDate, 55.6, false, "myWinnningcode" );
-
 
     }
 }

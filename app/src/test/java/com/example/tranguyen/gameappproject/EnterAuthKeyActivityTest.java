@@ -11,7 +11,7 @@ public class EnterAuthKeyActivityTest {
 
         EnterAuthKeyActivity activity = new EnterAuthKeyActivity();
 
-        Hunt hunt = activity.getHunt("ujyYamORdh");
+      // activity.getHuntAndGotToInstructions("ujyYamORdh");
        // assertEquals(hunt.getId(), 1);
 
 

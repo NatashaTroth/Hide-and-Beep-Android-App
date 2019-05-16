@@ -1,19 +1,21 @@
 package com.example.tranguyen.gameappproject;
 
+import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
-public class Hunt {
+public class Hunt implements Serializable {
 
     private int id;
     private String name;
     private Date startDate;
     private Date expiryDate;
-    private double timeLimit;
+    private Date timeLimit;
     private Boolean noTimeLimit;
     private String winningCode;
    // private String authKey;
 
-    public Hunt(int id, String name, Date startDate, Date expiryDate, double timeLimit, Boolean noTimeLimit, String winningCode){
+    public Hunt(int id, String name, Date startDate, Date expiryDate, Date timeLimit, Boolean noTimeLimit, String winningCode){
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -41,7 +43,7 @@ public class Hunt {
         return expiryDate;
     }
 
-    public double getTimeLimit() {
+    public Date getTimeLimit() {
         return timeLimit;
     }
 
