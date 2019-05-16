@@ -28,7 +28,7 @@
 
 
     <!--Homescreen-->
-    <string name="start_hunt">Start Scavenger Hunt</string>
+    <string name="start_hunt">Play Scavenger Hunt</string>
 
     <!--Enter Auth Key-->
     <string name="enter_auth_key_hint">Enter Key</string>

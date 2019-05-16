@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -70,21 +73,15 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Hunt hunt = null;
+                EditText editText = (EditText) findViewById(R.id.editTextKey);
+                String inputAuthKey = editText.getText().toString();
 
                 try {
-                    loadHuntAndGoToInstructions("ujyYamORdh");
+                    loadHuntAndGoToInstructions(inputAuthKey);
                 }
                 catch(Exception e){
                     //todo: tell user wrong auth code
                 }
-
-                final TextView textView = (TextView) findViewById(R.id.instuctionsTextView);
-                if(hunt != null)
-                textView.setText("Got hunt " + hunt.getId());
-
-//                Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
-//                startActivity(intent);
 
             }
         });
@@ -92,8 +89,8 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
     }
 
     public void loadHuntAndGoToInstructions(String authKey){
-        final TextView textView = (TextView) findViewById(R.id.instuctionsTextView);
-        textView.setText("\n\n\nInLoadHuntAdn...");
+//        final TextView textView = (TextView) findViewById(R.id.instuctionsTextView);
+//        textView.setText("\n\n\nInLoadHuntAdn...");
 
         String url = "https://hide-and-beep.projects.multimediatechnology.at/hunt.json?auth_key=" + authKey;
 
@@ -105,6 +102,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                     public void onResponse(JSONObject responseHunt) {
                         Log.v("VolleyResponse","Response: " + responseHunt.toString());
                         try {
+                            //textView.setText("got resp: " + responseHunt);
                             int id = responseHunt.getInt("id");
                             String name = responseHunt.getString("name");
                             String startDateStr = responseHunt.getString("start_date");
@@ -125,11 +123,11 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                                 expiryDate = simpleDateFormat.parse(expiryDateStr);
                                 timeLimit = simpleTimeFormat.parse(timeLimitStr);
                                 //timeLimitStr = new SimpleDateFormat("HH:mm").format(timeLimit);   //To make a string with hh:mm
-                                //textView.setText("\n\n\nTime: " + timeLimitStr);
+                               // textView.setText("\n\n\nTime: " + timeLimitStr);
 
                             } catch (ParseException e) {
                                 e.printStackTrace();
-                               // textView.setText("ERROR\n\nDATES: " + e);
+                                //textView.setText("ERROR\n\nDATES: " + e);
                                 throw new Exception("Unable to parse the dates.");
                             }
 
@@ -152,7 +150,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                     // TODO: Handle error
-                    //textView.setText("failed " + error);
+                   //textView.setText("failed " + error);
                     return;
 
                     }
@@ -162,8 +160,8 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
     }
 
     private void fetchHints(final Hunt hunt){
-        final TextView textView2 = (TextView) findViewById(R.id.instuctionsTextView);
-        textView2.setText("\n\n\nIn fetch hints...");
+//        final TextView textView2 = (TextView) findViewById(R.id.instuctionsTextView);
+//        textView2.setText("\n\n\nIn fetch hints...");
         String url = "https://hide-and-beep.projects.multimediatechnology.at/hints.json?hunt_id=" + hunt.getId();
 
         JsonArrayRequest request = new JsonArrayRequest
@@ -192,7 +190,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 //                                else
 //                                    position = i;
 
-                                textView2.append("Hint text: " + i);
+                                //textView2.append("Hint text: " + i);
                                 double latitude = responseHint.getDouble("latitude");
                                 double longitude = responseHint.getDouble("longitude");
                                 String text = responseHint.getString("text");
@@ -221,7 +219,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        textView2.setText("failed Hints " + error);
+                        //textView2.setText("failed Hints " + error);
                         return;
 
                     }
@@ -232,7 +230,22 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 
 
     private void goToInstructions(Hunt hunt, Hint[] hints){
-        final TextView textView3 = (TextView) findViewById(R.id.instuctionsTextView);
-        textView3.setText("in goto instructions ");
+//        final TextView textView3 = (TextView) findViewById(R.id.instuctionsTextView);
+//        textView3.setText("in goto instructions ");
+
+        String toastText = "Hunt loaded!";
+        Toast toast = Toast.makeText(getApplicationContext(),
+                toastText,
+                Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, 50);
+        toast.show();
+
+
+        Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
+        intent.putExtra("hunt",(Serializable) hunt);
+        intent.putExtra("hints",(Serializable) hints);
+        startActivity(intent);
+
+
     }
 }

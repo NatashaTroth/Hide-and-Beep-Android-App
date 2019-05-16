@@ -1,6 +1,8 @@
 package com.example.tranguyen.gameappproject;
 
-public class Hint {
+import java.io.Serializable;
+
+public class Hint implements Serializable {
     private int id;
     //private int position;
     private double latitude;
