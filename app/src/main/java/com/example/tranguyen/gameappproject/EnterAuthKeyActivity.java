@@ -1,5 +1,6 @@
 package com.example.tranguyen.gameappproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,17 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,15 +21,21 @@ import java.util.Date;
 
 public class EnterAuthKeyActivity extends AppCompatActivity {
 
+    public interface VolleyCallbackObject {
+        void onSuccess(JSONObject result);
+    }
+
+    public interface VolleyCallbackArray {
+        void onSuccess(JSONArray result);
+    }
+
     //TODO: Errorhandling
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_auth_key);
-
         setOnclickEventListeners();
-
     }
 
 
@@ -80,30 +76,28 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 catch(Exception e){
                     //todo: tell user wrong auth code
                 }
-
             }
         });
-
     }
 
-    public void loadHuntAndGoToInstructions(String authKey){
 
-        fetchHunt(authKey, new VolleyCallbackObject(){
+    public void loadHuntAndGoToInstructions(String authKey){
+        final Context c = this;
+        String url = "https://hide-and-beep.projects.multimediatechnology.at/hunt.json?auth_key=" + authKey;
+        VolleyRequests.fetchJsonObject(url, authKey, c, new VolleyCallbackObject(){
             @Override
             public void onSuccess(JSONObject responseHunt){
                 try {
                     final Hunt hunt = convertHuntJsonToJava(responseHunt);
-                    fetchHints(hunt, new VolleyCallbackArray(){
+                    String hintsUrl = "https://hide-and-beep.projects.multimediatechnology.at/hints.json?hunt_id=" + hunt.getId();
+                    VolleyRequests.fetchJsonArray(hintsUrl, c, new VolleyCallbackArray(){
                         @Override
                         public void onSuccess(JSONArray responseArray){
                             try {
-                                final Hint[] hints = convertHintsJsonToJava(hunt, responseArray);
+                                final Hint[] hints = convertHintsJsonToJava(responseArray);
                                 goToInstructions(hunt, hints);
 
                             }
-//                            catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
                             catch (Exception e) {
                                 e.printStackTrace();
                                 return;
@@ -111,25 +105,15 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                         }
                     });
                 }
-//                catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
                 catch (Exception e) {
                     e.printStackTrace();
-                    // throw new Exception("Unable to get Hunt.");
                     return;
                 }
             }
         });
     }
 
-    public interface VolleyCallbackObject {
-        void onSuccess(JSONObject result);
-    }
 
-    public interface VolleyCallbackArray {
-        void onSuccess(JSONArray result);
-    }
 
     private Hunt convertHuntJsonToJava(JSONObject responseHunt){
 
@@ -169,14 +153,12 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         }
         catch (Exception e) {
             e.printStackTrace();
-            // throw new Exception("Unable to get Hunt.");
-            //return null;
         }
         return null;
 
     }
 
-    private Hint[] convertHintsJsonToJava(Hunt hunt, JSONArray responseArray){
+    private Hint[] convertHintsJsonToJava(JSONArray responseArray){
         Hint[] hints = new Hint[responseArray.length()];
         try{
 
@@ -194,103 +176,11 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         }
         catch (JSONException e) {
             e.printStackTrace();
-
         }
         catch (Exception e) {
             e.printStackTrace();
-            // throw new Exception("Unable to get Hunt.");
-            //return null;
         }
-
         return null;
-
-    }
-
-
-
-    private void fetchHunt(String authKey, final VolleyCallbackObject callback){
-        String url = "https://hide-and-beep.projects.multimediatechnology.at/hunt.json?auth_key=" + authKey;
-
-        JsonObjectRequest request = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    // Hunt hunt;
-                    @Override
-                    public void onResponse(JSONObject responseHunt) {
-                        callback.onSuccess(responseHunt);
-                        Log.v("VolleyResponse","Response: " + responseHunt.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Toast toast =  Toast.makeText(getApplicationContext(), "Something went wrong. Try again later!", Toast.LENGTH_SHORT);
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            toast = Toast.makeText(getApplicationContext(), "Communication Error! Connect to internet!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof AuthFailureError) {
-                            toast = Toast.makeText(getApplicationContext(), "Authentication Error!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof ServerError) {
-                            toast = Toast.makeText(getApplicationContext(), "Server Side Error!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof NetworkError) {
-                            toast = Toast.makeText(getApplicationContext(), "Network Error!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof ParseError) {
-                            toast = Toast.makeText(getApplicationContext(), "Parse Error!", Toast.LENGTH_SHORT);
-                        }
-
-                        toast.setGravity(Gravity.TOP, 0, 50);
-                        toast.show();
-                        return;
-
-                    }
-                });
-
-        MySingleton.getInstance(this).addToRequestQueue(request);
-    }
-
-
-
-
-    private void fetchHints(final Hunt hunt, final VolleyCallbackArray callback){
-        String url = "https://hide-and-beep.projects.multimediatechnology.at/hints.json?hunt_id=" + hunt.getId();
-
-        JsonArrayRequest request = new JsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-
-                    // Hunt hunt;
-                    @Override
-                    public void onResponse(JSONArray responseArray) {
-                        callback.onSuccess(responseArray);
-                        Log.v("VolleyResponse","Response: " + responseArray.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Toast toast =  Toast.makeText(getApplicationContext(), "Something went wrong. Try again later!", Toast.LENGTH_SHORT);
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            toast = Toast.makeText(getApplicationContext(), "Communication Error! Connect to internet!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof AuthFailureError) {
-                            toast = Toast.makeText(getApplicationContext(), "Authentication Error!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof ServerError) {
-                            toast = Toast.makeText(getApplicationContext(), "Server Side Error!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof NetworkError) {
-                            toast = Toast.makeText(getApplicationContext(), "Network Error!", Toast.LENGTH_SHORT);
-                        } else if (error instanceof ParseError) {
-                            toast = Toast.makeText(getApplicationContext(), "Parse Error!", Toast.LENGTH_SHORT);
-                        }
-
-                        toast.setGravity(Gravity.TOP, 0, 50);
-                        toast.show();
-                        return;
-
-                    }
-                });
-
-        MySingleton.getInstance(this).addToRequestQueue(request);
     }
 
 
@@ -306,7 +196,5 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         intent.putExtra("hunt",(Serializable) hunt);
         intent.putExtra("hints",(Serializable) hints);
         startActivity(intent);
-
-
     }
 }
