@@ -12,7 +12,9 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/help_button" />
+        layout="@layout/help_button"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -76,15 +78,15 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="156dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="80dp"
+        android:layout_width="198dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
         android:text="@string/enter_auth_key_headline"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="@+id/clouds"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/clouds" />
 
