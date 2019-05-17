@@ -70,12 +70,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 //TODO: REMOVE - JUST FOR TESTING
                 inputAuthKey = "hLX8E0uLEG";
 
-                try {
-                    loadHuntAndGoToInstructions(inputAuthKey);
-                }
-                catch(Exception e){
-                    //todo: tell user wrong auth code
-                }
+                loadHuntAndGoToInstructions(inputAuthKey);
             }
         });
     }
@@ -89,12 +84,18 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
             public void onSuccess(JSONObject responseHunt){
                 try {
                     final Hunt hunt = convertHuntJsonToJava(responseHunt);
+                    if(hunt == null)
+                        throw new Exception("Hunt could not be converted into Java.");
+
                     String hintsUrl = "https://hide-and-beep.projects.multimediatechnology.at/hints.json?hunt_id=" + hunt.getId();
                     VolleyRequests.fetchJsonArray(hintsUrl, c, new VolleyCallbackArray(){
                         @Override
                         public void onSuccess(JSONArray responseArray){
                             try {
                                 final Hint[] hints = convertHintsJsonToJava(responseArray);
+                                if(hints == null)
+                                    throw new Exception("Hints could not be converted into Java.");
+
                                 goToInstructions(hunt, hints);
 
                             }
@@ -107,6 +108,13 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
+
+                    //It will only come here if unsuccessful
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Hunt could not be loaded.",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 50);
+                    toast.show();
                     return;
                 }
             }
@@ -143,25 +151,21 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 e.printStackTrace();
                 throw new Exception("Unable to parse the dates.");
             }
-
             return new Hunt(id, name, startDate, expiryDate, timeLimit, noTimeLimit, winningCode);
-
         }
         catch (JSONException e) {
             e.printStackTrace();
-
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-
     }
+
 
     private Hint[] convertHintsJsonToJava(JSONArray responseArray){
         Hint[] hints = new Hint[responseArray.length()];
         try{
-
             for(int i = 0; i < responseArray.length(); i++) {
                 // Get current json object
                 JSONObject responseHint = responseArray.getJSONObject(i);

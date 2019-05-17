@@ -24,9 +24,9 @@ public class VolleyRequests {
 
 //    Context c;
 
-    public VolleyRequests(){
-        // this.c = c;
-    }
+//    public VolleyRequests(){
+//        // this.c = c;
+//    }
 
 
     public static void fetchJsonObject(String url, String authKey, final Context c, final EnterAuthKeyActivity.VolleyCallbackObject callback){
@@ -52,7 +52,7 @@ public class VolleyRequests {
                         } else if (error instanceof AuthFailureError) {
                             toast = Toast.makeText(c, "Authentication Error!", Toast.LENGTH_SHORT);
                         } else if (error instanceof ServerError) {
-                            toast = Toast.makeText(c, "Server Side Error!", Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(c, "Server Side Error! Did you enter in the authentification key correctly?", Toast.LENGTH_SHORT);
                         } else if (error instanceof NetworkError) {
                             toast = Toast.makeText(c, "Network Error!", Toast.LENGTH_SHORT);
                         } else if (error instanceof ParseError) {
