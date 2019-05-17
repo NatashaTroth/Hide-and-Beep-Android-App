@@ -39,3 +39,4 @@ public class MySingleton {
         getRequestQueue().add(req);
     }
 }
+
