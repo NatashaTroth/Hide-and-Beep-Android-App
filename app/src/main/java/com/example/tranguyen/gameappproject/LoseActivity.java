@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 public class LoseActivity extends AppCompatActivity {
@@ -23,29 +24,12 @@ public class LoseActivity extends AppCompatActivity {
             }
         });
 
-        ImageView liveRankingBtn = findViewById(R.id.liveRankingBtn);
-        liveRankingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoseActivity.this, LiveRankingActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ImageView logoutBtn = findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoseActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         ImageView helpBtn = findViewById(R.id.helpBtn);
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoseActivity.this, HelpActivity.class);
+                intent.putExtra("sourceClass", LoseActivity.class);
                 startActivity(intent);
             }
         });

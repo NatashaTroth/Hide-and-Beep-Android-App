@@ -28,7 +28,12 @@
 
 
     <!--Homescreen-->
-    <string name="start_hunt">Start Scavenger Hunt</string>
+    <string name="start_hunt">Play Scavenger Hunt</string>
+
+    <!--Enter Auth Key-->
+    <string name="enter_auth_key_hint">Enter Key</string>
+    <string name="enter_auth_key_headline">Enter hunt key: </string>
+    <string name="enter_auth_key_nextbtn">Load hunt </string>
 
     <!--Show hint-->
     <string name="hint_title">Hint</string>
@@ -66,9 +71,6 @@ Have fun!</string>
     <string name="backbtn_helpscreen">Back</string>
     <string name="help_desc_screen">You can create and organise scavenger hunts on the Hunt and Beep website.  Create an account on the website and login to it here on to the app. When creating a scavenger hunt on the website, you can add participants with accounts to participate. On the app you can pick a scavenger hunt your account has been assigned to.</string>
 
-    <!--Pick hunt screen-->
-    <string name="pick_hunt_headline">Pick a hunt: </string>
-    <string name="pick_hunt_nextbtn">Next </string>
 
     <!--Winning screen-->
     <string name="winning_headline">Congratulations, you found the treasure!</string>

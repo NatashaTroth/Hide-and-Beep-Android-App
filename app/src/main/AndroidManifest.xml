@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tranguyen.gameappproject">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,24 +13,46 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <!--<uses-library-->
+            <!--android:name="org.apache.http.legacy"-->
+            <!--android:required="false" />-->
+        <!--<activity-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:name=".MainActivity"-->
+            <!--android:windowSoftInputMode="adjustPan|adjustResize">-->
+            <!---->
+        <!--</activity>-->
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:screenOrientation="portrait"
+            android:name=".HomescreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomescreenActivity"></activity>
-        <activity android:name=".PickHuntActivity" />
-        <activity android:name=".InstructionsActivity" />
-        <activity android:name=".HintActivity"></activity>
-        <activity android:name=".MainGameActivity"></activity>
-        <activity android:name=".WinActivity" />
-        <activity android:name=".LoseActivity"></activity>
-        <activity android:name=".LiveRankingActivity"></activity>
         <activity
+            android:screenOrientation="portrait"
+            android:name=".EnterAuthKeyActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".InstructionsActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".HintActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".MainGameActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".WinActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".LoseActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
             android:name=".EnterCodeActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity android:name=".HelpActivity"></activity>
