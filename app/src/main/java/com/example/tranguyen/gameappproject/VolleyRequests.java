@@ -45,7 +45,6 @@ public class VolleyRequests {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Toast toast =  Toast.makeText(c, "Something went wrong. Try again later!", Toast.LENGTH_SHORT);
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             toast = Toast.makeText(c, "Communication Error! Connect to internet!", Toast.LENGTH_SHORT);
