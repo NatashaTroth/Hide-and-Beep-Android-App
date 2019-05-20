@@ -1,12 +1,10 @@
 package com.example.tranguyen.gameappproject;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,16 +22,13 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainGameActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
@@ -51,6 +46,11 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
     // number for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
+
+    //get Extras
+    private final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
+    private final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
+    //final int currentHint = getIntent().getExtras().getInt("currentHint");
 
 
     @Override
@@ -76,23 +76,15 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 addApi(LocationServices.API).
                 addConnectionCallbacks(this).
                 addOnConnectionFailedListener(this).build();
+        
 
-
-
-
-        //get Extras
-        final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
-        final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
-        //final int currentHint = getIntent().getExtras().getInt("currentHint");
-/*
+        /*
         for (int i = 0; i < hints.length; i++) {
             Log.d("HINTS: ", hints[i].getText());
             Log.d("LONG: ", String.valueOf(hints[i].getLongitude()));
             Log.d("LAT: ", String.valueOf(hints[i].getLatitude()));
         }*/
 
-        // GPS location hier einbauen
-        // wenn Location gefunden, mittels currentHint + 1 wieder an die HintActivity mitgeben
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
