@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.util.Log;
@@ -60,6 +63,10 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
 
+        //Avoid keyboard opening on creation of activity
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         final int SCREEN_HEIGHT = displayMetrics.heightPixels;
@@ -72,6 +79,8 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
          //---Prepare overlays---
          prepareHintOverlay(hunt, hints, SCREEN_HEIGHT);
          prepareHelpOverlay(hunt, SCREEN_HEIGHT);
+         prepareEnterCodeOverlay(hunt, SCREEN_HEIGHT);
+
 
          createCountdownClock(hunt);
 
@@ -154,11 +163,81 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         });
 
         //Click on Tick Button
-        ImageButton hintTickBtn = findViewById(R.id.helpTickButton);
-        hintTickBtn.setOnClickListener(new View.OnClickListener() {
+        ImageButton helpTickBtn = findViewById(R.id.helpTickButton);
+        helpTickBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linearLayout.animate().translationY((-1)*screenHeight);
+            }
+        });
+
+    }
+
+    private void prepareEnterCodeOverlay(final Hunt hunt, final int screenHeight){
+        final ConstraintLayout linearLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
+        linearLayout.setTranslationY(screenHeight);
+
+        //Click on "Enter Treasure Code" Button
+        final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
+        final Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
+        mainGameEnterCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.setTranslationY(0);
+                mainGameEnterCodeBtn.setVisibility(View.GONE);
+                mainGameHintBtn.setVisibility(View.GONE);
+            }
+        });
+
+        //Click on "Back" Button
+        Button enterCodeBackBtn = findViewById(R.id.enterCodeBackBtn);
+        enterCodeBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.setTranslationY(screenHeight);
+                mainGameEnterCodeBtn.setVisibility(View.VISIBLE);
+                mainGameHintBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //Click on "Submit button
+        Button submitCodeBtn = findViewById(R.id.submitCodeBtn);
+        submitCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText editText = (EditText) findViewById(R.id.editTextEnterTreasureCode);
+                String inputCode = editText.getText().toString();
+
+                if(inputCode.equals(hunt.getWinningCode())){
+                    Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    hunt.enterCodeTries--;
+                    if(hunt.enterCodeTries <= 0){
+                        String toastText = "Wrong code. That was your last try. Game over!";
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                toastText,
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 50);
+                        toast.show();
+                        Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        String tryCase = "tries";
+                        if(hunt.enterCodeTries == 1)
+                            tryCase = "try";
+                        String toastText = "Wrong code. Only " + hunt.enterCodeTries + " " + tryCase + " left!";
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                toastText,
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 50);
+                        toast.show();
+                    }
+
+                }
             }
         });
 
@@ -221,18 +300,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 //        });
 
 
-        //Click on "Enter Treasure Code" Button
-        Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
-        mainGameEnterCodeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
-                intent.putExtra("hunt",(Serializable) hunt);
-                intent.putExtra("hints",(Serializable) hints);
-                //intent.putExtra("currentHint", currentHint);
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override
