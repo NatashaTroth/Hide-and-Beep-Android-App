@@ -13,11 +13,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,9 +68,20 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final int SCREEN_HEIGHT = displayMetrics.heightPixels;
+
+
          final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
          final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
 
+         //---Hint overlay---
+         TextView hintTextView = (TextView) findViewById(R.id.hintText);
+         hintTextView.setText(hints[hunt.currentHint].getText());
+         //hide Hint overlay
+         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
+         linearLayout.setTranslationY(SCREEN_HEIGHT);
 
          //Countdown clock
         final TextView timerTextView = (TextView) findViewById(R.id.gameTime);
@@ -149,11 +163,16 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         mainGameHintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HintActivity.class);
-                intent.putExtra("hunt",(Serializable) hunt);
-                intent.putExtra("hints",(Serializable) hints);
-                //intent.putExtra("currentHint", currentHint);
-                startActivity(intent);
+                linearLayout.animate().translationY(0);
+            }
+        });
+
+        //Click on Tick Button
+        ImageButton hintTickBtn = findViewById(R.id.hintTickButton);
+        hintTickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.animate().translationY(SCREEN_HEIGHT);
             }
         });
 

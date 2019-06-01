@@ -7,8 +7,19 @@
     tools:context=".MainGameActivity"
     android:background="@drawable/background_gradient">
 
-    <include layout="@layout/nav_bar_home_btn"/>
-    <include layout="@layout/help_button"/>
+    <include
+        android:id="@+id/include2"
+        layout="@layout/nav_bar_home_btn" />
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/help_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView
@@ -16,15 +27,15 @@
         style="@style/headingStyle"
         android:layout_width="211dp"
         android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="8dp"
-        android:text="Seeker"
+        android:text="@string/app_name"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintHorizontal_bias="0.613"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Seeker" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -113,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5sp"
-        android:text="00:00:00"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/imageView14"
         app:layout_constraintEnd_toEndOf="@+id/imageView14"
         app:layout_constraintHorizontal_bias="0.418"
@@ -157,5 +168,68 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView12" />
+
+
+    <!--HINT OVERLAY-->
+    <LinearLayout
+        android:id="@+id/hintOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/backgroundBeige"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/include3"
+        app:layout_constraintVertical_bias="0.471">
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/headingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="62dp"
+            android:text="@string/hint_title" />
+
+        <!--hint text from API (inserted via Java)-->
+        <TextView
+            android:id="@+id/hintText"
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="36dp"
+
+            android:elevation="10dp"
+            android:gravity="center_horizontal"
+            android:lineHeight="25sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <ImageButton
+            android:id="@+id/hintTickButton"
+            android:layout_width="99dp"
+            android:layout_height="96dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/img_description_tick_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/hintText"
+            app:layout_constraintVertical_bias="0.504"
+            app:srcCompat="@drawable/ic_tick_button" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

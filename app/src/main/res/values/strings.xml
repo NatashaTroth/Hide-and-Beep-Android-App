@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Game App Project</string>
+    <string name="app_name">Hide and Beep</string>
     <string name="back">Back</string>
     <string name="back_to_game">Back to game</string>
     <string name="play_again">Play again</string>
