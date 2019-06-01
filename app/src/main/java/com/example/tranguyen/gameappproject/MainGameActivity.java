@@ -32,10 +32,7 @@ import com.google.android.gms.location.LocationServices;
 
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.gson.internal.bind.util.ISO8601Utils.format;
@@ -58,55 +55,25 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     // number for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
-    //get Extras
-
-    //final int currentHint = getIntent().getExtras().getInt("currentHint");
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        final int SCREEN_HEIGHT = displayMetrics.heightPixels;
 
-
+         //Get extras
          final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
          final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
 
-         //---Hint overlay---
-         TextView hintTextView = (TextView) findViewById(R.id.hintText);
-         hintTextView.setText(hints[hunt.currentHint].getText());
-         //hide Hint overlay
-         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
-         linearLayout.setTranslationY(SCREEN_HEIGHT);
+         //---Prepare overlays---
+         prepareHintOverlay(hunt, hints);
+         prepareEntreCodeOverlay(hunt);
 
-         //Countdown clock
-        final TextView timerTextView = (TextView) findViewById(R.id.gameTime);
-        //Create timer
-        new CountDownTimer(hunt.getTimeLimit(), 1000) {
+         createCountdownClock(hunt);
 
-            public void onTick(long millisUntilFinished) {
-                String formattedTime = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+         setOtherOnClickListeners(hunt, hints);
 
-                timerTextView.setText(formattedTime);
-            }
 
-            public void onFinish() {
-                String toastText = "Time up. Game over!";
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        toastText,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 0, 50);
-                toast.show();
-                Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
-                startActivity(intent);
-            }
-        }.start();
 
         // request the location of user and add the permissions
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -136,27 +103,19 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         }*/
 
 
-        ImageView owlHomeBtn = findViewById(R.id.homeOwl);
-        owlHomeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
 
-        ImageView helpBtn = findViewById(R.id.helpBtn);
-        helpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HelpActivity.class);
-                intent.putExtra("hunt",(Serializable) hunt);
-                intent.putExtra("hints",(Serializable) hints);
-               // intent.putExtra("currentHint", currentHint);
-                intent.putExtra("sourceClass", MainGameActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void prepareHintOverlay(Hunt hunt, Hint[] hints){
+        final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final int SCREEN_HEIGHT = displayMetrics.heightPixels;
+
+        TextView hintTextView = (TextView) findViewById(R.id.hintText);
+        hintTextView.setText(hints[hunt.currentHint].getText());
+        //hide Hint overlay
+
+        linearLayout.setTranslationY(SCREEN_HEIGHT);
 
         //Click on "Hint" Button
         Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
@@ -175,6 +134,63 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 linearLayout.animate().translationY(SCREEN_HEIGHT);
             }
         });
+
+    }
+
+
+    private void prepareEntreCodeOverlay(Hunt hunt){
+
+    }
+
+    private void createCountdownClock(Hunt hunt){
+        final TextView timerTextView = (TextView) findViewById(R.id.gameTime);
+        //Create timer
+        new CountDownTimer(hunt.getTimeLimit(), 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                String formattedTime = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+
+                timerTextView.setText(formattedTime);
+            }
+
+            public void onFinish() {
+                String toastText = "Time up. Game over!";
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        toastText,
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 50);
+                toast.show();
+                Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
+                startActivity(intent);
+            }
+        }.start();
+    }
+
+    private void setOtherOnClickListeners(final Hunt hunt, final Hint[] hints){
+        ImageView owlHomeBtn = findViewById(R.id.homeOwl);
+        owlHomeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageView helpBtn = findViewById(R.id.helpBtn);
+        helpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainGameActivity.this, HelpActivity.class);
+                intent.putExtra("hunt",(Serializable) hunt);
+                intent.putExtra("hints",(Serializable) hints);
+                // intent.putExtra("currentHint", currentHint);
+                intent.putExtra("sourceClass", MainGameActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         //Click on "Enter Treasure Code" Button
         Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
