@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,6 +142,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
             Date expiryDate = null;
             Date timeLimit = null;
 
+
             try {
                 startDate = simpleDateFormat.parse(startDateStr);
                 expiryDate = simpleDateFormat.parse(expiryDateStr);
@@ -151,7 +153,11 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 e.printStackTrace();
                 throw new Exception("Unable to parse the dates.");
             }
-            return new Hunt(id, name, startDate, expiryDate, timeLimit, noTimeLimit, winningCode);
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
+
+            timeLimit  = timeFormat.parse(timeFormat.format(timeLimit));
+           Long timeLimitMillis = timeLimit.getTime();
+            return new Hunt(id, name, startDate, expiryDate, timeLimitMillis, noTimeLimit, winningCode);
         }
         catch (JSONException e) {
             e.printStackTrace();
