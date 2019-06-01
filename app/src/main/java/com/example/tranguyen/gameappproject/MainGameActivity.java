@@ -34,7 +34,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -85,7 +84,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
          createCountdownClock(hunt);
 
-         setOtherOnClickListeners(hunt, hints);
+         setHomeOnClickListeners(hunt, hints);
 
 
 
@@ -277,30 +276,30 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
     }
 
-    private void setOtherOnClickListeners(final Hunt hunt, final Hint[] hints){
+    private void setHomeOnClickListeners(final Hunt hunt, final Hint[] hints){
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
-                startActivity(intent);
+
+                new AlertDialog.Builder(MainGameActivity.this)
+                        .setTitle("Title")
+                        .setMessage("Going to home will end this hunt. Do you still want to go to home?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
+                                startActivity(intent);
+
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+
+
+
+
             }
         });
-
-//        ImageView helpBtn = findViewById(R.id.helpBtn);
-//        helpBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainGameActivity.this, HelpActivity.class);
-//                intent.putExtra("hunt",(Serializable) hunt);
-//                intent.putExtra("hints",(Serializable) hints);
-//                // intent.putExtra("currentHint", currentHint);
-//                intent.putExtra("sourceClass", MainGameActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-
 
     }
 
