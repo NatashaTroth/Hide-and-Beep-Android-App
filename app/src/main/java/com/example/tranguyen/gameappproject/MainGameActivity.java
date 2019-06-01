@@ -6,17 +6,25 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -26,8 +34,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import static com.google.gson.internal.bind.util.ISO8601Utils.format;
 
 
 public class MainGameActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -47,16 +57,36 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     // number for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
-    //get Extras
-    private final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
-    private final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
-    //final int currentHint = getIntent().getExtras().getInt("currentHint");
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+
+        //Avoid keyboard opening on creation of activity
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final int SCREEN_HEIGHT = displayMetrics.heightPixels;
+
+
+         //Get extras
+         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
+         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
+
+         //---Prepare overlays---
+         prepareHintOverlay(hunt, hints, SCREEN_HEIGHT);
+         prepareHelpOverlay(hunt, SCREEN_HEIGHT);
+         prepareEnterCodeOverlay(hunt, SCREEN_HEIGHT);
+
+
+         createCountdownClock(hunt);
+
+         setHomeOnClickListeners(hunt, hints);
+
+
 
         // request the location of user and add the permissions
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -86,53 +116,191 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         }*/
 
 
-        ImageView owlHomeBtn = findViewById(R.id.homeOwl);
-        owlHomeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
 
-        ImageView helpBtn = findViewById(R.id.helpBtn);
-        helpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HelpActivity.class);
-                intent.putExtra("hunt",(Serializable) hunt);
-                intent.putExtra("hints",(Serializable) hints);
-               // intent.putExtra("currentHint", currentHint);
-                intent.putExtra("sourceClass", MainGameActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void prepareHintOverlay(Hunt hunt, Hint[] hints, final int screenHeight){
+        final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
+
+        TextView hintTextView = (TextView) findViewById(R.id.hintText);
+        hintTextView.setText(hints[hunt.currentHint].getText());
+        //hide Hint overlay
+
+        linearLayout.setTranslationY(screenHeight);
 
         //Click on "Hint" Button
         Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
         mainGameHintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, HintActivity.class);
-                intent.putExtra("hunt",(Serializable) hunt);
-                intent.putExtra("hints",(Serializable) hints);
-                //intent.putExtra("currentHint", currentHint);
-                startActivity(intent);
+                linearLayout.animate().translationY(0);
             }
         });
 
+        //Click on Tick Button
+        ImageButton hintTickBtn = findViewById(R.id.hintTickButton);
+        hintTickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.animate().translationY(screenHeight);
+            }
+        });
+
+    }
+
+
+    private void prepareHelpOverlay(Hunt hunt, final int screenHeight){
+
+        final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.helpOverlay);
+        linearLayout.setTranslationY((-1)*screenHeight);
+
+
+        ImageView helpBtn = findViewById(R.id.helpBtn);
+        helpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.animate().translationY(0);
+            }
+        });
+
+        //Click on Tick Button
+        ImageButton helpTickBtn = findViewById(R.id.helpTickButton);
+        helpTickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.animate().translationY((-1)*screenHeight);
+            }
+        });
+
+    }
+
+    private void prepareEnterCodeOverlay(final Hunt hunt, final int screenHeight){
+        final ConstraintLayout linearLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
+        linearLayout.setTranslationY(screenHeight);
+
         //Click on "Enter Treasure Code" Button
-        Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
+        final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
+        final Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
         mainGameEnterCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
-                intent.putExtra("hunt",(Serializable) hunt);
-                intent.putExtra("hints",(Serializable) hints);
-                //intent.putExtra("currentHint", currentHint);
-                startActivity(intent);
+                linearLayout.setTranslationY(0);
+                mainGameEnterCodeBtn.setVisibility(View.GONE);
+                mainGameHintBtn.setVisibility(View.GONE);
             }
         });
+
+        //Click on "Back" Button
+        Button enterCodeBackBtn = findViewById(R.id.enterCodeBackBtn);
+        enterCodeBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.setTranslationY(screenHeight);
+                mainGameEnterCodeBtn.setVisibility(View.VISIBLE);
+                mainGameHintBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //Click on "Submit button
+        Button submitCodeBtn = findViewById(R.id.submitCodeBtn);
+        submitCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText editText = (EditText) findViewById(R.id.editTextEnterTreasureCode);
+                String inputCode = editText.getText().toString();
+
+                if(inputCode.equals(hunt.getWinningCode())){
+                    Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    hunt.enterCodeTries--;
+                    if(hunt.enterCodeTries <= 0){
+                        String toastText = "Wrong code. That was your last try. Game over!";
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                toastText,
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 50);
+                        toast.show();
+                        Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        String tryCase = "tries";
+                        if(hunt.enterCodeTries == 1)
+                            tryCase = "try";
+                        String toastText = "Wrong code. Only " + hunt.enterCodeTries + " " + tryCase + " left!";
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                toastText,
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 50);
+                        toast.show();
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    private void createCountdownClock(Hunt hunt){
+        final TextView timerTextView = (TextView) findViewById(R.id.gameTime);
+
+        if(!hunt.getNoTimeLimit()){
+            //Create timer
+            new CountDownTimer(hunt.getTimeLimit(), 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    String formattedTime = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+
+                    timerTextView.setText(formattedTime);
+                }
+
+                public void onFinish() {
+                    String toastText = "Time up. Game over!";
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            toastText,
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 50);
+                    toast.show();
+                    Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
+                    startActivity(intent);
+                }
+            }.start();
+        }
+        else{
+            timerTextView.setText(R.string.unlimited);
+        }
+
+    }
+
+    private void setHomeOnClickListeners(final Hunt hunt, final Hint[] hints){
+        ImageView owlHomeBtn = findViewById(R.id.homeOwl);
+        owlHomeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(MainGameActivity.this)
+                        .setTitle("Title")
+                        .setMessage("Going to home will end this hunt. Do you still want to go to home?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
+                                startActivity(intent);
+
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+
+
+
+
+            }
+        });
+
     }
 
     @Override

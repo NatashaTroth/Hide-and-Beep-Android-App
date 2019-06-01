@@ -10,7 +10,7 @@ public class Hunt implements Serializable {
     private String name;
     private Date startDate;
     private Date expiryDate;
-    private Date timeLimit;
+    private long timeLimit; //in milliseconds
     private Boolean noTimeLimit;
     private String winningCode;
 
@@ -20,7 +20,7 @@ public class Hunt implements Serializable {
 
    // private String authKey;
 
-    public Hunt(int id, String name, Date startDate, Date expiryDate, Date timeLimit, Boolean noTimeLimit, String winningCode){
+    public Hunt(int id, String name, Date startDate, Date expiryDate, long timeLimit, Boolean noTimeLimit, String winningCode){
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -50,7 +50,7 @@ public class Hunt implements Serializable {
     public Date getExpiryDate() {
         return expiryDate;
     }
-    public Date getTimeLimit() {
+    public long getTimeLimit() {
         return timeLimit;
     }
     public Boolean getNoTimeLimit() {

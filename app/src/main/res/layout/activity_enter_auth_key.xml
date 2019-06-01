@@ -104,6 +104,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@color/black"
+        android:maxLength="10"
         app:layout_constraintBottom_toTopOf="@+id/nextBtn"
         app:layout_constraintEnd_toEndOf="@+id/include"
         app:layout_constraintHorizontal_bias="0.222"
