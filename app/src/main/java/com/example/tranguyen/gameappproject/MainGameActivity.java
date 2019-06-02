@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,6 +35,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +59,16 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     // number for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
+    // get gps difference
+    private Hunt hunt;
+    private Hint[] hints;
+    private int currentHint;
+    private int nextHint;
+    private int totalHints;
+    private double locationLat;
+    private double locationLng;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,24 +83,26 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         final int SCREEN_HEIGHT = displayMetrics.heightPixels;
 
+        //Get extras
+        hunt = (Hunt) getIntent().getSerializableExtra("hunt");
+        hints = (Hint[]) getIntent().getSerializableExtra("hints");
+        currentHint = getIntent().getExtras().getInt("currentHint");
+        nextHint = currentHint;
+        totalHints = hints.length;
 
-         //Get extras
-         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
-         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
+        TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
+        numOfAllHints.setText(String.valueOf(totalHints));
 
          //---Prepare overlays---
          prepareHintOverlay(hunt, hints, SCREEN_HEIGHT);
          prepareHelpOverlay(hunt, SCREEN_HEIGHT);
          prepareEnterCodeOverlay(hunt, SCREEN_HEIGHT);
 
-
          createCountdownClock(hunt);
 
          setHomeOnClickListeners(hunt, hints);
 
-
-
-        // request the location of user and add the permissions
+         // request the location of user and add the permissions
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
 
@@ -106,15 +120,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 addApi(LocationServices.API).
                 addConnectionCallbacks(this).
                 addOnConnectionFailedListener(this).build();
-        
-
-        /*
-        for (int i = 0; i < hints.length; i++) {
-            Log.d("HINTS: ", hints[i].getText());
-            Log.d("LONG: ", String.valueOf(hints[i].getLongitude()));
-            Log.d("LAT: ", String.valueOf(hints[i].getLatitude()));
-        }*/
-
 
     }
 
@@ -122,7 +127,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
 
         TextView hintTextView = (TextView) findViewById(R.id.hintText);
-        hintTextView.setText(hints[hunt.currentHint].getText());
+        hintTextView.setText(hints[nextHint].getText());
         //hide Hint overlay
 
         linearLayout.setTranslationY(screenHeight);
@@ -295,9 +300,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
 
-
-
-
             }
         });
 
@@ -370,16 +372,65 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            Log.d("CURRENT LOCATION: ", location.toString());
+            // Confirmation that GPS connection is still available
+            String toastLocation = "GPS requested.";
 
-            String toastLocation = "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude();
-
-            Toast toast = Toast.makeText(getApplicationContext(),
+            Toast gpsToast = Toast.makeText(MainGameActivity.this,
                     toastLocation,
                     Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.BOTTOM, 0, 50);
-            toast.show();
+            gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
+            gpsToast.show();
+
+            // get distance between locations
+            locationLat = location.getLatitude();
+            locationLng = location.getLongitude();
+
+            switchToNextHint(locationLat, locationLng);
         }
+    }
+
+    public void switchToNextHint(double lat, double lng) {
+        //Log.d("LAT: ", String.valueOf(locationLat));
+        //Log.d("LNG: ", String.valueOf(locationLng));
+
+
+
+            for (int i = 0; i < hints.length; i++) {
+                // longitue and latitude of the game
+                Location hintLocation = new Location("");
+                hintLocation.setLatitude(hints[i].getLatitude());
+                hintLocation.setLongitude(hints[i].getLongitude());
+
+                // current gps location of user
+                Location currentLocation = new Location("");
+                currentLocation.setLatitude(lat);
+                currentLocation.setLongitude(lng);
+
+                float distanceBetween = hintLocation.distanceTo(currentLocation);
+
+                if (distanceBetween <= 10860) {
+                    Log.d("DISTANCE: ", String.valueOf(distanceBetween));
+
+                    TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
+                    totalHints -= 1;
+                    numOfAllHints.setText(String.valueOf(totalHints));
+
+                    nextHint++;
+
+                    String toastGetHint = "You made it!";
+
+                    Toast toast = Toast.makeText(MainGameActivity.this,
+                            toastGetHint,
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 50);
+                    toast.show();
+
+                    if (totalHints == 0) {
+                        Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }
     }
 
     @Override
@@ -432,11 +483,11 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
         if (location != null) {
-            Log.d("CURRENT LOCATION: ", location.toString());
+            //Log.d("CURRENT LOCATION: ", location.toString());
 
-            String toastLocation = "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude();
+            String toastLocation = "GPS connected.";
 
-            Toast toast = Toast.makeText(getApplicationContext(),
+            Toast toast = Toast.makeText(MainGameActivity.this,
                     toastLocation,
                     Toast.LENGTH_LONG);
             toast.setGravity(Gravity.BOTTOM, 0, 50);
