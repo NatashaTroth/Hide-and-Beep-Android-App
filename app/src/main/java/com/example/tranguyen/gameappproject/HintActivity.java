@@ -26,10 +26,10 @@ public class HintActivity extends AppCompatActivity {
         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
         final int currentHint = getIntent().getExtras().getInt("currentHint");
 
-        Log.d("CURRENT HINT: ", String.valueOf(currentHint));
+        Log.d("CURRENT HINT ", String.valueOf(currentHint));
 
         TextView hintTextView = (TextView) findViewById(R.id.hintText);
-        hintTextView.setText(hints[hunt.currentHint].getText());
+        hintTextView.setText(hints[currentHint].getText());
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +61,7 @@ public class HintActivity extends AppCompatActivity {
                 Intent intent = new Intent(HintActivity.this, MainGameActivity.class);
                 intent.putExtra("hunt",(Serializable) hunt);
                 intent.putExtra("hints",(Serializable) hints);
-               // intent.putExtra("currentHint", currentHint);
+                //intent.putExtra("currentHint", currentHint);
                 startActivity(intent);
             }
         });
