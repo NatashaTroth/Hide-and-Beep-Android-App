@@ -288,8 +288,8 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             @Override
             public void onClick(View v) {
 
-                new AlertDialog.Builder(MainGameActivity.this)
-                        .setTitle("Title")
+                new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                        .setTitle("Warning!")
                         .setMessage("Going to home will end this hunt. Do you still want to go to home?")
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -426,20 +426,19 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
                 if (nextHint < hints.length) {
                     prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
+                    numOfAllHints.setText(String.valueOf(totalHints));
 
-                    AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this);
+                    AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
                     switchToNextHint.
                             setTitle("That was mäh-tastic!").
                             setMessage("Are you ready for the next hint?").
                             setCancelable(false).
-                            setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
+                            setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                 //@Override
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     linearLayout.animate().translationY(0);
                                 }
-                            }).setNegativeButton("CANCEL", null).show();
-
-                    numOfAllHints.setText(String.valueOf(totalHints));
+                            }).setNegativeButton("NO", null).show();
                 }
                 else if (nextHint == hints.length - 1){
                     totalHints = 0;
