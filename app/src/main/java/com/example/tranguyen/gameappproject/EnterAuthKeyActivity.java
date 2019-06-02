@@ -196,10 +196,10 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 
     private void goToInstructions(Hunt hunt, Hint[] hints){
         String toastText = "Hunt loaded!";
-        Toast toast = Toast.makeText(getApplicationContext(),
+        Toast toast = Toast.makeText(EnterAuthKeyActivity.this,
                 toastText,
                 Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP, 0, 50);
+        toast.setGravity(Gravity.BOTTOM, 0, 50);
         toast.show();
 
         Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);

@@ -67,7 +67,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private int totalHints;
     private double locationLat;
     private double locationLng;
-
+    private int SCREEN_HEIGHT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        final int SCREEN_HEIGHT = displayMetrics.heightPixels;
+        SCREEN_HEIGHT = displayMetrics.heightPixels;
 
         //Get extras
         hunt = (Hunt) getIntent().getSerializableExtra("hunt");
@@ -94,7 +94,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         numOfAllHints.setText(String.valueOf(totalHints));
 
          //---Prepare overlays---
-         prepareHintOverlay(hunt, hints, SCREEN_HEIGHT);
+         prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
          prepareHelpOverlay(hunt, SCREEN_HEIGHT);
          prepareEnterCodeOverlay(hunt, SCREEN_HEIGHT);
 
@@ -123,11 +123,13 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
     }
 
-    private void prepareHintOverlay(Hunt hunt, Hint[] hints, final int screenHeight){
+    private void prepareHintOverlay(Hunt hunt, Hint[] hints, final int screenHeight, int currentHintNo){
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
 
+        Log.d("OVERLAY HINT ", String.valueOf(nextHint));
+
         TextView hintTextView = (TextView) findViewById(R.id.hintText);
-        hintTextView.setText(hints[nextHint].getText());
+        hintTextView.setText(hints[currentHintNo].getText());
         //hide Hint overlay
 
         linearLayout.setTranslationY(screenHeight);
@@ -157,7 +159,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.helpOverlay);
         linearLayout.setTranslationY((-1)*screenHeight);
-
 
         ImageView helpBtn = findViewById(R.id.helpBtn);
         helpBtn.setOnClickListener(new View.OnClickListener() {
@@ -390,47 +391,57 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     public void switchToNextHint(double lat, double lng) {
-        //Log.d("LAT: ", String.valueOf(locationLat));
-        //Log.d("LNG: ", String.valueOf(locationLng));
+        Log.d("LAT: ", String.valueOf(locationLat));
+        Log.d("LNG: ", String.valueOf(locationLng));
+        final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
 
+        // longitue and latitude of the game
+        Location hintLocation = new Location("");
+        hintLocation.setLatitude(hints[nextHint].getLatitude());
+        hintLocation.setLongitude(hints[nextHint].getLongitude());
 
+        // current gps location of user
+        Location currentLocation = new Location("");
+        currentLocation.setLatitude(lat);
+        currentLocation.setLongitude(lng);
 
-            for (int i = 0; i < hints.length; i++) {
-                // longitue and latitude of the game
-                Location hintLocation = new Location("");
-                hintLocation.setLatitude(hints[i].getLatitude());
-                hintLocation.setLongitude(hints[i].getLongitude());
+        float distanceBetween = hintLocation.distanceTo(currentLocation);
 
-                // current gps location of user
-                Location currentLocation = new Location("");
-                currentLocation.setLatitude(lat);
-                currentLocation.setLongitude(lng);
+        TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
 
-                float distanceBetween = hintLocation.distanceTo(currentLocation);
+        Log.d("Distance", String.valueOf(distanceBetween));
 
-                if (distanceBetween <= 10860) {
-                    Log.d("DISTANCE: ", String.valueOf(distanceBetween));
+        if (totalHints == 0){
+            numOfAllHints.setText(String.valueOf(0));
 
-                    TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
-                    totalHints -= 1;
-                    numOfAllHints.setText(String.valueOf(totalHints));
+            Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+            startActivity(intent);
+        }
+        else if (distanceBetween <= 11900) {
+            totalHints -= 1;
+            nextHint += 1;
 
-                    nextHint++;
+            if (nextHint < hints.length) {
+                prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
 
-                    String toastGetHint = "You made it!";
+                AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this);
+                switchToNextHint.
+                        setTitle("That was mäh-tastic!").
+                        setMessage("Are you ready for the next hint?").
+                        setCancelable(false).
+                        setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
+                            //@Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                linearLayout.animate().translationY(0);
+                            }
+                        }).setNegativeButton("CANCEL", null).show();
 
-                    Toast toast = Toast.makeText(MainGameActivity.this,
-                            toastGetHint,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 50);
-                    toast.show();
-
-                    if (totalHints == 0) {
-                        Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
-                        startActivity(intent);
-                    }
-                }
+                numOfAllHints.setText(String.valueOf(totalHints));
             }
+        }
+        else {
+            return; // was tun, wenn er hier rein rennt?
+        }
     }
 
     @Override
