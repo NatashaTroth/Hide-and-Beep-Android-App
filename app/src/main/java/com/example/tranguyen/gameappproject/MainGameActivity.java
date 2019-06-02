@@ -391,56 +391,64 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     public void switchToNextHint(double lat, double lng) {
-        Log.d("LAT: ", String.valueOf(locationLat));
-        Log.d("LNG: ", String.valueOf(locationLng));
+        Log.d("LOC LAT: ", String.valueOf(locationLat));
+        Log.d("LOC LNG: ", String.valueOf(locationLng));
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
 
-        // longitue and latitude of the game
         Location hintLocation = new Location("");
-        hintLocation.setLatitude(hints[nextHint].getLatitude());
-        hintLocation.setLongitude(hints[nextHint].getLongitude());
 
-        // current gps location of user
-        Location currentLocation = new Location("");
-        currentLocation.setLatitude(lat);
-        currentLocation.setLongitude(lng);
+        // longitude and latitude of the game
+        if (nextHint < hints.length) {
+            hintLocation.setLatitude(hints[nextHint].getLatitude());
+            hintLocation.setLongitude(hints[nextHint].getLongitude());
 
-        float distanceBetween = hintLocation.distanceTo(currentLocation);
+            Log.d("HINT LAT: ", String.valueOf(hints[nextHint].getLatitude()));
+            Log.d("HINT LNG: ", String.valueOf(hints[nextHint].getLongitude()));
 
-        TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
+            // current gps location of user
+            Location currentLocation = new Location("");
+            currentLocation.setLatitude(lat);
+            currentLocation.setLongitude(lng);
 
-        Log.d("Distance", String.valueOf(distanceBetween));
+            float distanceBetween = hintLocation.distanceTo(currentLocation);
 
-        if (totalHints == 0){
-            numOfAllHints.setText(String.valueOf(0));
+            TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
 
-            Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
-            startActivity(intent);
-        }
-        else if (distanceBetween <= 11900) {
-            totalHints -= 1;
-            nextHint += 1;
+            Log.d("Distance", String.valueOf(distanceBetween));
 
-            if (nextHint < hints.length) {
-                prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
-
-                AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this);
-                switchToNextHint.
-                        setTitle("That was mäh-tastic!").
-                        setMessage("Are you ready for the next hint?").
-                        setCancelable(false).
-                        setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
-                            //@Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                linearLayout.animate().translationY(0);
-                            }
-                        }).setNegativeButton("CANCEL", null).show();
-
-                numOfAllHints.setText(String.valueOf(totalHints));
+            if (totalHints == 0){
+                Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+                startActivity(intent);
             }
-        }
-        else {
-            return; // was tun, wenn er hier rein rennt?
+            else if (distanceBetween <= 11062) {
+                totalHints -= 1;
+                nextHint += 1;
+
+                if (nextHint < hints.length) {
+                    prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
+
+                    AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this);
+                    switchToNextHint.
+                            setTitle("That was mäh-tastic!").
+                            setMessage("Are you ready for the next hint?").
+                            setCancelable(false).
+                            setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
+                                //@Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    linearLayout.animate().translationY(0);
+                                }
+                            }).setNegativeButton("CANCEL", null).show();
+
+                    numOfAllHints.setText(String.valueOf(totalHints));
+                }
+                else if (nextHint == hints.length - 1){
+                    totalHints = 0;
+                    numOfAllHints.setText(String.valueOf(0));
+                }
+            }
+            else {
+                return;
+            }
         }
     }
 
