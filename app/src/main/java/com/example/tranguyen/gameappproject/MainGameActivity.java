@@ -374,7 +374,8 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     public void onLocationChanged(Location location) {
         if (location != null) {
             // Confirmation that GPS connection is still available
-            String toastLocation = "GPS requested.";
+            String toastLocation = "GPS requested.lat:  " + location.getLatitude() + " long: " + location.getLongitude() +
+                    "should be: lat: " + hints[currentHint].getLatitude() + " long: " + hints[currentHint].getLongitude();
 
             Toast gpsToast = Toast.makeText(MainGameActivity.this,
                     toastLocation,
@@ -420,7 +421,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
                 startActivity(intent);
             }
-            else if (distanceBetween <= 11062) {
+            else if (distanceBetween <= 20) {
                 totalHints -= 1;
                 nextHint += 1;
 

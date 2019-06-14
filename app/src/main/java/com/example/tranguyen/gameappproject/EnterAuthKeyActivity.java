@@ -69,7 +69,7 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 String inputAuthKey = editText.getText().toString();
 
                 //TODO: REMOVE - JUST FOR TESTING
-                inputAuthKey = "hLX8E0uLEG";
+                inputAuthKey = "nF66bqTp6E";
 
                 loadHuntAndGoToInstructions(inputAuthKey);
             }
