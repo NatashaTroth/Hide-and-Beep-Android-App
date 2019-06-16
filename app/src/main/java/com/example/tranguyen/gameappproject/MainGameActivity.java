@@ -404,14 +404,14 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         currentLocation.setLongitude(lng);
 
         float distanceBetween = hintLocation.distanceTo(currentLocation);
-        
+
         if (distanceBetween <= 100 && distanceBetween >= 51) {
             switchWarningToOrangeAlarm();
         }
-        else if (distanceBetween <= 50 && distanceBetween >= 21) {
+        if (distanceBetween <= 50 && distanceBetween >= 21) {
             switchWarningToRedAlarm();
         }
-        else if (distanceBetween <= 15000) { // 15 km = 15.000m => in meters => 20 Meter
+        if (distanceBetween <= 15000) { // 15 km = 15.000m => in meters => 20 Meter
             totalHints -= 1;
             currentHint += 1;
 
