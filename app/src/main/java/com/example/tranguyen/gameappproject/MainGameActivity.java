@@ -379,8 +379,9 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             locationLat = location.getLatitude();
             locationLng = location.getLongitude();
 
-            // Confirmation that GPS connection is still available
-            String toastLocation = "GPS requested. Lat/Lng: " + location.getLatitude() + "/" + location.getLongitude();
+            // confirmation that GPS connection is still available
+            String toastLocation = "GPS requested. Lat/Lng: " + locationLat + "/" + locationLng + "\n Current Hint Lat/Lng: " + hints[currentHint].getLatitude()
+                    + "/" + hints[currentHint].getLongitude();
 
             Toast gpsToast = Toast.makeText(MainGameActivity.this,
                     toastLocation,
@@ -388,7 +389,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
             gpsToast.show();
 
-            // Rufe die Methode so oft auf, wie die GPS abgefragt wird
             switchToNextHint(locationLat, locationLng);
         }
     }
