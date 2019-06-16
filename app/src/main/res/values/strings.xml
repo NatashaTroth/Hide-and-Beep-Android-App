@@ -70,8 +70,11 @@ Have fun!</string>
     <!--Help screen-->
     <string name="help_headline">Help</string>
     <string name="backbtn_helpscreen">Back</string>
-    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hunt and Beep website.  Create an account on the website and login to it here on to the app. When creating a scavenger hunt on the website, you can add participants with accounts to participate. On the app you can pick a scavenger hunt your account has been assigned to.</string>
-
+    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hunt and Beep website.  Create an account on the website and login to it here on to the app. When creating a scavenger hunt on the website, you can add participants with accounts to participate. On the app you can pick a scavenger hunt your account has been assigned to.
+    \n\n
+        © 2012 Gitanki (Freesound) All Rights Reserved
+    </string>
+    <string name="help_desc_copyright">© 2012 Gitanki (Freesound) All Rights Reserved</string>
 
     <!--Winning screen-->
     <string name="winning_headline">Congratulations, you found the treasure!</string>

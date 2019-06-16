@@ -21,8 +21,6 @@ public class HelpActivity extends AppCompatActivity {
         final Hint[] hints;
        // final int currentHint;
 
-
-
         if(getIntent().hasExtra("sourceClass")){
             Bundle extras = getIntent().getExtras();
             nextActivityClass = (Class<Activity>)extras.getSerializable("sourceClass");
@@ -42,9 +40,6 @@ public class HelpActivity extends AppCompatActivity {
              hints = null;
              //currentHint = 0;
         }
-
-
-
 
         Button backBtn = findViewById(R.id.backButton);
         backBtn.setOnClickListener(new View.OnClickListener() {

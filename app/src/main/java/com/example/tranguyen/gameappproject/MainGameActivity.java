@@ -1,12 +1,15 @@
 package com.example.tranguyen.gameappproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -63,7 +66,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private Hunt hunt;
     private Hint[] hints;
     private int currentHint;
-    private int nextHint;
     private int totalHints;
     private double locationLat;
     private double locationLng;
@@ -87,7 +89,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         hints = (Hint[]) getIntent().getSerializableExtra("hints");
         currentHint = getIntent().getExtras().getInt("currentHint");
-        //nextHint = currentHint;
         totalHints = hints.length;
 
         TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
@@ -378,86 +379,84 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             locationLat = location.getLatitude();
             locationLng = location.getLongitude();
 
-            // hints.length = 2
-            // currentHint starts with = 0
+            // confirmation that GPS connection is still available
+            String toastLocation = "GPS requested. Lat/Lng: " + locationLat + "/" + locationLng + "\n Current Hint Lat/Lng: " + hints[currentHint].getLatitude()
+                    + "/" + hints[currentHint].getLongitude();
 
-            // Confirmation that GPS connection is still available
-            if (currentHint < hints.length) {
-                String toastLocation = "GPS requested - LAT: " + locationLat + " LONG: " + locationLng;
-                String currentHintLocation = "Current hint - LAT " + hints[currentHint].getLatitude() + " LONG: " + hints[currentHint].getLongitude();
+            Toast gpsToast = Toast.makeText(MainGameActivity.this,
+                    toastLocation,
+                    Toast.LENGTH_LONG);
+            gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
+            gpsToast.show();
 
-                Toast gpsToast = Toast.makeText(MainGameActivity.this,
-                        toastLocation,
-                        Toast.LENGTH_LONG);
-                gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
-                gpsToast.show();
-
-                Toast currentHintToast = Toast.makeText(MainGameActivity.this,
-                        currentHintLocation,
-                        Toast.LENGTH_LONG);
-                currentHintToast.setGravity(Gravity.BOTTOM, 0, 50);
-                currentHintToast.show();
-
-                // Rufe die Methode so oft auf, wie die GPS abgefragt wird
-                switchToNextHint(locationLat, locationLng);
-            }
+            switchToNextHint(locationLat, locationLng);
         }
     }
 
     public void switchToNextHint(double lat, double lng) {
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
         Location hintLocation = new Location("");
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        if (currentHint < hints.length) {
-            hintLocation.setLatitude(hints[currentHint].getLatitude());
-            hintLocation.setLongitude(hints[currentHint].getLongitude());
+        Location currentLocation = new Location("");
+        TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
 
-            //Log.d("CURRENT HINT LAT: ", String.valueOf(hints[currentHint].getLatitude()));
-            //Log.d("CURRENT HINT LNG: ", String.valueOf(hints[currentHint].getLongitude()));
+        // calculate the distance between current gps location of user and hint location
+        hintLocation.setLatitude(hints[currentHint].getLatitude());
+        hintLocation.setLongitude(hints[currentHint].getLongitude());
+        currentLocation.setLatitude(lat);
+        currentLocation.setLongitude(lng);
 
-            // calculate the distance between current gps location of user and hint location
-            Location currentLocation = new Location("");
-            currentLocation.setLatitude(lat);
-            currentLocation.setLongitude(lng);
-            float distanceBetween = hintLocation.distanceTo(currentLocation);
+        float distanceBetween = hintLocation.distanceTo(currentLocation);
 
-            TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
+        if (distanceBetween <= 100 && distanceBetween >= 46) {
+            switchWarningToOrangeAlarm();
+            v.vibrate(500);
 
-            Log.d("Distance", String.valueOf(distanceBetween));
+        }
+        if (distanceBetween <= 45 && distanceBetween >= 21) {
+            switchWarningToRedAlarm();
+            v.vibrate(500);
+        }
+        if (distanceBetween <= 20) { // 20m => found the hint
+            totalHints -= 1;
+            currentHint += 1;
 
-            if (totalHints == 0){
-                Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
-                startActivity(intent);
-            }
-            else if (distanceBetween <= 2700000) { // 15 km = 15.000m 2017184.0
-                totalHints -= 1; // reduce the total hint, if one hint found
-                currentHint += 1; // go to the next hint
+            if (currentHint < hints.length) {
+                v.vibrate(500);
+                prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
+                numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
 
-                if (currentHint < hints.length) {
-                    prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
-                    numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
+                AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                switchToNextHint.
+                        setTitle("That was mäh-tastic!").
+                        setMessage("Are you ready for the next hint?").
+                        setCancelable(false).
+                        setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            //@Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                linearLayout.animate().translationY(0);
+                            }
+                        }).setNegativeButton("NO", null).show();
 
-                    AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-                    switchToNextHint.
-                            setTitle("That was mäh-tastic!").
-                            setMessage("Are you ready for the next hint?").
-                            setCancelable(false).
-                            setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                //@Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    linearLayout.animate().translationY(0);
-                                }
-                            }).setNegativeButton("NO", null).show();
-                }
-                else if (currentHint == hints.length - 1){
-                    totalHints = 0;
+                if (currentHint == hints.length - 1) {
                     numOfAllHints.setText(String.valueOf(0));
+
+                    Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
+                    startActivity(intent);
                 }
-            }
-            else {
-                return;
             }
         }
+    }
+
+    public void switchWarningToOrangeAlarm() {
+        ImageView orangeAlarm = (ImageView)findViewById(R.id.imageView12);
+        orangeAlarm.setImageResource(R.drawable.ic_orangealarm);
+    }
+
+    public void switchWarningToRedAlarm() {
+        ImageView redAlarm = (ImageView)findViewById(R.id.imageView12);
+        redAlarm.setImageResource(R.drawable.ic_redalarm);
     }
 
     @Override
