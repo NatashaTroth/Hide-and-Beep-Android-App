@@ -429,7 +429,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
                 startActivity(intent);
             }
-            else if (distanceBetween <= 2700000) { // 15 km = 15.000m 2017184.0
+            else if (distanceBetween <= 15000) { // 15 km = 15.000m 2017184.0
                 totalHints -= 1; // reduce the total hint, if one hint found
                 currentHint += 1; // go to the next hint
 
@@ -448,10 +448,11 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                                     linearLayout.animate().translationY(0);
                                 }
                             }).setNegativeButton("NO", null).show();
-                }
-                else if (currentHint == hints.length - 1){
-                    totalHints = 0;
-                    numOfAllHints.setText(String.valueOf(0));
+
+                    if (currentHint == hints.length - 1) {
+                        totalHints = 0;
+                        numOfAllHints.setText(String.valueOf(0));
+                    }
                 }
             }
             else {
