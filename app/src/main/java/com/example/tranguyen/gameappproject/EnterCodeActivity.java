@@ -1,7 +1,6 @@
 package com.example.tranguyen.gameappproject;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -20,9 +18,6 @@ public class EnterCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_code);
-
-        MediaPlayer mediaPlayer= MediaPlayer.create(EnterCodeActivity.this,R.raw.sheep);
-        mediaPlayer.start();
 
         //get Extras
         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
