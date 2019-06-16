@@ -1,12 +1,15 @@
 package com.example.tranguyen.gameappproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -393,6 +396,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     public void switchToNextHint(double lat, double lng) {
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
         Location hintLocation = new Location("");
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         Location currentLocation = new Location("");
         TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
@@ -407,15 +411,19 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         if (distanceBetween <= 100 && distanceBetween >= 46) {
             switchWarningToOrangeAlarm();
+            v.vibrate(500);
+
         }
         if (distanceBetween <= 45 && distanceBetween >= 21) {
             switchWarningToRedAlarm();
+            v.vibrate(500);
         }
-        if (distanceBetween <= 20) { // in meters => found the hint
+        if (distanceBetween <= 20) { // 20m => found the hint
             totalHints -= 1;
             currentHint += 1;
 
             if (currentHint < hints.length) {
+                v.vibrate(500);
                 prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
                 numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
 
