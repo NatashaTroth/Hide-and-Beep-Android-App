@@ -87,14 +87,14 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         hints = (Hint[]) getIntent().getSerializableExtra("hints");
         currentHint = getIntent().getExtras().getInt("currentHint");
-        nextHint = currentHint;
+        //nextHint = currentHint;
         totalHints = hints.length;
 
         TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
         numOfAllHints.setText(String.valueOf(totalHints));
 
          //---Prepare overlays---
-         prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
+         prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
          prepareHelpOverlay(hunt, SCREEN_HEIGHT);
          prepareEnterCodeOverlay(hunt, SCREEN_HEIGHT);
 
@@ -126,7 +126,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private void prepareHintOverlay(Hunt hunt, Hint[] hints, final int screenHeight, int currentHintNo){
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
 
-        Log.d("OVERLAY HINT ", String.valueOf(nextHint));
+        Log.d("OVERLAY HINT ", String.valueOf(currentHint));
 
         TextView hintTextView = (TextView) findViewById(R.id.hintText);
         hintTextView.setText(hints[currentHintNo].getText());
@@ -373,44 +373,52 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            // Confirmation that GPS connection is still available
-            String toastLocation = "GPS requested.lat:  " + location.getLatitude() + " long: " + location.getLongitude() +
-                    "should be: lat: " + hints[currentHint].getLatitude() + " long: " + hints[currentHint].getLongitude();
-
-            Toast gpsToast = Toast.makeText(MainGameActivity.this,
-                    toastLocation,
-                    Toast.LENGTH_LONG);
-            gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
-            gpsToast.show();
 
             // get distance between locations
             locationLat = location.getLatitude();
             locationLng = location.getLongitude();
 
-            switchToNextHint(locationLat, locationLng);
+            // hints.length = 2
+            // currentHint starts with = 0
+
+            // Confirmation that GPS connection is still available
+            if (currentHint < hints.length) {
+                String toastLocation = "GPS requested - LAT: " + locationLat + " LONG: " + locationLng;
+                String currentHintLocation = "Current hint - LAT " + hints[currentHint].getLatitude() + " LONG: " + hints[currentHint].getLongitude();
+
+                Toast gpsToast = Toast.makeText(MainGameActivity.this,
+                        toastLocation,
+                        Toast.LENGTH_LONG);
+                gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
+                gpsToast.show();
+
+                Toast currentHintToast = Toast.makeText(MainGameActivity.this,
+                        currentHintLocation,
+                        Toast.LENGTH_LONG);
+                currentHintToast.setGravity(Gravity.BOTTOM, 0, 50);
+                currentHintToast.show();
+
+                // Rufe die Methode so oft auf, wie die GPS abgefragt wird
+                switchToNextHint(locationLat, locationLng);
+            }
         }
     }
 
     public void switchToNextHint(double lat, double lng) {
-        Log.d("LOC LAT: ", String.valueOf(locationLat));
-        Log.d("LOC LNG: ", String.valueOf(locationLng));
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
-
         Location hintLocation = new Location("");
 
-        // longitude and latitude of the game
-        if (nextHint < hints.length) {
-            hintLocation.setLatitude(hints[nextHint].getLatitude());
-            hintLocation.setLongitude(hints[nextHint].getLongitude());
+        if (currentHint < hints.length) {
+            hintLocation.setLatitude(hints[currentHint].getLatitude());
+            hintLocation.setLongitude(hints[currentHint].getLongitude());
 
-            Log.d("HINT LAT: ", String.valueOf(hints[nextHint].getLatitude()));
-            Log.d("HINT LNG: ", String.valueOf(hints[nextHint].getLongitude()));
+            //Log.d("CURRENT HINT LAT: ", String.valueOf(hints[currentHint].getLatitude()));
+            //Log.d("CURRENT HINT LNG: ", String.valueOf(hints[currentHint].getLongitude()));
 
-            // current gps location of user
+            // calculate the distance between current gps location of user and hint location
             Location currentLocation = new Location("");
             currentLocation.setLatitude(lat);
             currentLocation.setLongitude(lng);
-
             float distanceBetween = hintLocation.distanceTo(currentLocation);
 
             TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
@@ -418,16 +426,16 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             Log.d("Distance", String.valueOf(distanceBetween));
 
             if (totalHints == 0){
-                Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+                Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
                 startActivity(intent);
             }
-            else if (distanceBetween <= 20) {
-                totalHints -= 1;
-                nextHint += 1;
+            else if (distanceBetween <= 2700000) { // 15 km = 15.000m 2017184.0
+                totalHints -= 1; // reduce the total hint, if one hint found
+                currentHint += 1; // go to the next hint
 
-                if (nextHint < hints.length) {
-                    prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, nextHint);
-                    numOfAllHints.setText(String.valueOf(totalHints));
+                if (currentHint < hints.length) {
+                    prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
+                    numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
 
                     AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
                     switchToNextHint.
@@ -441,7 +449,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                                 }
                             }).setNegativeButton("NO", null).show();
                 }
-                else if (nextHint == hints.length - 1){
+                else if (currentHint == hints.length - 1){
                     totalHints = 0;
                     numOfAllHints.setText(String.valueOf(0));
                 }
