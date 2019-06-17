@@ -423,8 +423,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             locationLng = location.getLongitude();
 
             // confirmation that GPS connection is still available
-            String toastLocation = "GPS requested. Lat/Lng: " + locationLat + "/" + locationLng + "\n Current Hint Lat/Lng: " + hints[currentHint].getLatitude()
-                    + "/" + hints[currentHint].getLongitude();
+            String toastLocation = "GPS requested.";
 
             Toast gpsToast = Toast.makeText(MainGameActivity.this,
                     toastLocation,
@@ -439,58 +438,61 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     public void switchToNextHint(double lat, double lng) {
         final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
         Location hintLocation = new Location("");
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
         Location currentLocation = new Location("");
+
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         TextView numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
 
-        // calculate the distance between current gps location of user and hint location
-        hintLocation.setLatitude(hints[currentHint].getLatitude());
-        hintLocation.setLongitude(hints[currentHint].getLongitude());
-        currentLocation.setLatitude(lat);
-        currentLocation.setLongitude(lng);
+        if (currentHint < hints.length) {
+            // calculate the distance between current gps location of user and hint location
+            hintLocation.setLatitude(hints[currentHint].getLatitude());
+            hintLocation.setLongitude(hints[currentHint].getLongitude());
+            currentLocation.setLatitude(lat);
+            currentLocation.setLongitude(lng);
 
-        float distanceBetween = hintLocation.distanceTo(currentLocation);
+            float distanceBetween = hintLocation.distanceTo(currentLocation);
 
-        if (distanceBetween <= 80 && distanceBetween >= 36) {
-            switchWarningToOrangeAlarm();
-            v.vibrate(500);
-            //TODO: SLOW BEEP - 10 SECS
-
-        }
-        if (distanceBetween <= 35 && distanceBetween >= 16) {
-            switchWarningToRedAlarm();
-            v.vibrate(500);
-            //TODO: FAST BEEP - 10 SECS
-        }
-        if (distanceBetween <= 15) { // 20m => found the hint
-            totalHints -= 1;
-            currentHint += 1;
-
-            if (currentHint < hints.length) {
+            if (totalHints == 0) {
+                numOfAllHints.setText(String.valueOf(0));
+                openEnterCodeOverlay();
+            }
+            if (distanceBetween <= 80 && distanceBetween >= 36) {
+                switchWarningToOrangeAlarm();
                 v.vibrate(500);
-                prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
-                numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
+                //TODO: SLOW BEEP - 10 SECS
 
-                AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-                switchToNextHint.
-                        setTitle("That was mäh-tastic!").
-                        setMessage("Are you ready for the next hint?").
-                        setCancelable(false).
-                        setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            //@Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                linearLayout.animate().translationY(0);
-                            }
-                        }).setNegativeButton("NO", null).show();
+            }
+            if (distanceBetween <= 35 && distanceBetween >= 16) {
+                switchWarningToRedAlarm();
+                v.vibrate(500);
+                //TODO: FAST BEEP - 10 SECS
+            }
+            if (distanceBetween <= 50000) { // 15m => found the hint
+                totalHints -= 1;
+                currentHint += 1;
 
-                if (currentHint == hints.length) {
-                    numOfAllHints.setText(String.valueOf(0));
-                    openEnterCodeOverlay();
-                    //TODO: SEE WHY SKIPPING A HINT
-//
-//                    Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
-//                    startActivity(intent);
+                if (currentHint < hints.length) {
+                    v.vibrate(500);
+                    prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
+                    numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
+
+                    AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    switchToNextHint.
+                            setTitle("That was mäh-tastic!").
+                            setMessage("Are you ready for the next hint?").
+                            setCancelable(false).
+                            setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                //@Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    linearLayout.animate().translationY(0);
+                                }
+                            }).setNegativeButton("NO", null).show();
+
+                    if (currentHint == hints.length - 1) {
+                        totalHints = 0;
+                        numOfAllHints.setText(String.valueOf(0));
+                    }
+                    
                 }
             }
         }
