@@ -452,10 +452,10 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
             float distanceBetween = hintLocation.distanceTo(currentLocation);
 
-            if (totalHints == 0) {
-                numOfAllHints.setText(String.valueOf(0));
-                openEnterCodeOverlay();
-            }
+//            if (totalHints == 0) {
+//                numOfAllHints.setText(String.valueOf(0));
+//                openEnterCodeOverlay();
+//            }
             if (distanceBetween <= 80 && distanceBetween >= 36) {
                 switchWarningToOrangeAlarm();
                 v.vibrate(500);
@@ -471,7 +471,8 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 totalHints -= 1;
                 currentHint += 1;
 
-                if (currentHint < hints.length) {
+                //not on last hint
+                if (totalHints >= 0) {
                     v.vibrate(500);
                     prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
                     numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
@@ -488,11 +489,17 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                                 }
                             }).setNegativeButton("NO", null).show();
 
-                    if (currentHint == hints.length - 1) {
-                        totalHints = 0;
-                        numOfAllHints.setText(String.valueOf(0));
-                    }
+//                    if (currentHint == hints.length - 1) {
+//                        //totalHints = 0;
+//                        numOfAllHints.setText(String.valueOf(0));
+//                    }
                     
+                }
+                else{
+                    //Last hint was found
+                    numOfAllHints.setText(String.valueOf(0));
+                    openEnterCodeOverlay();
+
                 }
             }
         }
