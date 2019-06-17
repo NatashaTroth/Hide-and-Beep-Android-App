@@ -38,18 +38,11 @@
 
     <!--Show hint-->
     <string name="hint_title">Hint</string>
-    <!--<string name="hint_text">You will find the next clue in a place that always runs but never walks, often murmurs, never talks, has a bed but never sleeps, has a mouth but never eats.</string>-->
 
     <!--Main game screen-->
     <string name="main_game_screen_text">How many hints are still missing?</string>
     <string name="main_game_hint_button">Hint</string>
     <string name="main_game_enter_code_button">Enter Treasure Code</string>
-
-    <!--&lt;!&ndash;Live ranking&ndash;&gt;-->
-    <!--<string name="live_ranking_title">Live Ranking</string>-->
-    <!--<string name="live_ranking_username">Username:</string>-->
-    <!--<string name="live_ranking_hints_found">Hints found:</string>-->
-    <!--<string name="live_ranking_time_remaining">Time remaining:</string>-->
 
     <!--Enter treasure code-->
     <string name="enter_code_title">Enter Treasure Code</string>
@@ -78,15 +71,5 @@
 
     <!--Winning screen-->
     <string name="winning_headline">Congratulations, you found the treasure!</string>
-
-    <!--&lt;!&ndash;Login screen&ndash;&gt;-->
-    <!--<string name="login_headline">Login</string>-->
-    <!--<string name="login_username">Username</string>-->
-    <!--<string name="login_password">Password</string>-->
-
-    <!--<string name="edit_username">Input field for username.</string>-->
-    <!--<string name="edit_password">Input field for password.</string>-->
-    <!--<string name="img_description_keylock_with_sheep">A black keylock with all the different sheep in it.</string>-->
-    <!--<string name="img_description_logout_button">Logout Button.</string>-->
 
 </resources>

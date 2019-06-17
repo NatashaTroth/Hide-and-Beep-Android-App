@@ -7,10 +7,8 @@
     tools:context=".HintActivity"
     android:background="@drawable/background_gradient">
 
-
     <include layout="@layout/nav_bar_home_btn"/>
     <include layout="@layout/help_button"/>
-
 
     <ImageView
         android:id="@+id/imageView4"
@@ -83,7 +81,6 @@
         app:layout_constraintTop_toBottomOf="@+id/hintText"
         app:srcCompat="@drawable/ic_hide2"
         android:contentDescription="@string/img_description_sheep_hide"/>
-
 
 
 </android.support.constraint.ConstraintLayout>

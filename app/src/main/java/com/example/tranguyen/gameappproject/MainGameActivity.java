@@ -396,13 +396,13 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             locationLng = location.getLongitude();
 
             // confirmation that GPS connection is still available
-            String toastLocation = "GPS requested.";
-
-            Toast gpsToast = Toast.makeText(MainGameActivity.this,
-                    toastLocation,
-                    Toast.LENGTH_LONG);
-            gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
-            gpsToast.show();
+//            String toastLocation = "GPS requested.";
+//
+//            Toast gpsToast = Toast.makeText(MainGameActivity.this,
+//                    toastLocation,
+//                    Toast.LENGTH_LONG);
+//            gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
+//            gpsToast.show();
 
             switchToNextHint(locationLat, locationLng);
         }
@@ -424,9 +424,9 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             currentLocation.setLongitude(lng);
 
             float distanceBetween = hintLocation.distanceTo(currentLocation);
-
-            //Todo: remove later
-            distanceBetween = 5;
+//
+////            //Todo: remove later
+//            distanceBetween = 5;
 
             if (distanceBetween <= 80 && distanceBetween >= 36) {
                 switchWarningToOrangeAlarm();
@@ -533,17 +533,17 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         // if permissions is ok, get last location
         location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
-        if (location != null) {
-            //Log.d("CURRENT LOCATION: ", location.toString());
-
-            String toastLocation = "GPS connected.";
-
-            Toast toast = Toast.makeText(MainGameActivity.this,
-                    toastLocation,
-                    Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.BOTTOM, 0, 50);
-            toast.show();
-        }
+//        if (location != null) {
+//            //Log.d("CURRENT LOCATION: ", location.toString());
+//
+//            String toastLocation = "GPS connected.";
+//
+//            Toast toast = Toast.makeText(MainGameActivity.this,
+//                    toastLocation,
+//                    Toast.LENGTH_LONG);
+//            toast.setGravity(Gravity.BOTTOM, 0, 50);
+//            toast.show();
+//        }
 
         startLocationUpdates();
     }
