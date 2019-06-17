@@ -208,6 +208,50 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         });
 
         //Click on "Submit button
+        openEnterCodeOverlay();
+//        Button submitCodeBtn = findViewById(R.id.submitCodeBtn);
+//        submitCodeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                EditText editText = (EditText) findViewById(R.id.editTextEnterTreasureCode);
+//                String inputCode = editText.getText().toString();
+//
+//                if(inputCode.equals(hunt.getWinningCode())){
+//                    Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
+//                    startActivity(intent);
+//                }
+//                else {
+//                    hunt.enterCodeTries--;
+//                    if(hunt.enterCodeTries <= 0){
+//                        String toastText = "Wrong code. That was your last try. Game over!";
+//                        Toast toast = Toast.makeText(getApplicationContext(),
+//                                toastText,
+//                                Toast.LENGTH_LONG);
+//                        toast.setGravity(Gravity.TOP, 0, 50);
+//                        toast.show();
+//                        Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
+//                        startActivity(intent);
+//                    }
+//                    else{
+//                        String tryCase = "tries";
+//                        if(hunt.enterCodeTries == 1)
+//                            tryCase = "try";
+//                        String toastText = "Wrong code. Only " + hunt.enterCodeTries + " " + tryCase + " left!";
+//                        Toast toast = Toast.makeText(getApplicationContext(),
+//                                toastText,
+//                                Toast.LENGTH_LONG);
+//                        toast.setGravity(Gravity.TOP, 0, 50);
+//                        toast.show();
+//                    }
+//
+//                }
+//            }
+//        });
+
+    }
+
+    private void openEnterCodeOverlay(){
         Button submitCodeBtn = findViewById(R.id.submitCodeBtn);
         submitCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,7 +291,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 }
             }
         });
-
     }
 
     private void createCountdownClock(Hunt hunt){
@@ -409,16 +452,18 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         float distanceBetween = hintLocation.distanceTo(currentLocation);
 
-        if (distanceBetween <= 100 && distanceBetween >= 46) {
+        if (distanceBetween <= 80 && distanceBetween >= 36) {
             switchWarningToOrangeAlarm();
             v.vibrate(500);
+            //TODO: SLOW BEEP - 10 SECS
 
         }
-        if (distanceBetween <= 45 && distanceBetween >= 21) {
+        if (distanceBetween <= 35 && distanceBetween >= 16) {
             switchWarningToRedAlarm();
             v.vibrate(500);
+            //TODO: FAST BEEP - 10 SECS
         }
-        if (distanceBetween <= 20) { // 20m => found the hint
+        if (distanceBetween <= 15) { // 20m => found the hint
             totalHints -= 1;
             currentHint += 1;
 
@@ -439,11 +484,13 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                             }
                         }).setNegativeButton("NO", null).show();
 
-                if (currentHint == hints.length - 1) {
+                if (currentHint == hints.length) {
                     numOfAllHints.setText(String.valueOf(0));
-
-                    Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
-                    startActivity(intent);
+                    openEnterCodeOverlay();
+                    //TODO: SEE WHY SKIPPING A HINT
+//
+//                    Intent intent = new Intent(MainGameActivity.this, EnterCodeActivity.class);
+//                    startActivity(intent);
                 }
             }
         }
