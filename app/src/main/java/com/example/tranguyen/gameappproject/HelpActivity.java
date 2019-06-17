@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.Serializable;
 
@@ -40,6 +42,11 @@ public class HelpActivity extends AppCompatActivity {
              hints = null;
              //currentHint = 0;
         }
+
+
+        //Make link in textview clickable
+        TextView helpTextView = (TextView) findViewById(R.id.helpText);
+        helpTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         Button backBtn = findViewById(R.id.backButton);
         backBtn.setOnClickListener(new View.OnClickListener() {

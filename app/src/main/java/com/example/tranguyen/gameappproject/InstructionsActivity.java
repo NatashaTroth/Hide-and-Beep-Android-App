@@ -3,9 +3,13 @@ package com.example.tranguyen.gameappproject;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
@@ -20,7 +24,7 @@ public class InstructionsActivity extends AppCompatActivity {
         //Bundle extras = getIntent().getExtras();
         final Hunt hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         final Hint[] hints = (Hint[]) getIntent().getSerializableExtra("hints");
-        //final int currentHint = getIntent().getExtras().getInt("currentHint");
+
 
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {

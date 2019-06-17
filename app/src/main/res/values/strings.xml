@@ -38,31 +38,31 @@
 
     <!--Show hint-->
     <string name="hint_title">Hint</string>
-    <string name="hint_text">You will find the next clue in a place that always runs but never walks, often murmurs, never talks, has a bed but never sleeps, has a mouth but never eats.</string>
+    <!--<string name="hint_text">You will find the next clue in a place that always runs but never walks, often murmurs, never talks, has a bed but never sleeps, has a mouth but never eats.</string>-->
 
     <!--Main game screen-->
     <string name="main_game_screen_text">How many hints are still missing?</string>
     <string name="main_game_hint_button">Hint</string>
     <string name="main_game_enter_code_button">Enter Treasure Code</string>
 
-    <!--Live ranking-->
-    <string name="live_ranking_title">Live Ranking</string>
-    <string name="live_ranking_username">Username:</string>
-    <string name="live_ranking_hints_found">Hints found:</string>
-    <string name="live_ranking_time_remaining">Time remaining:</string>
+    <!--&lt;!&ndash;Live ranking&ndash;&gt;-->
+    <!--<string name="live_ranking_title">Live Ranking</string>-->
+    <!--<string name="live_ranking_username">Username:</string>-->
+    <!--<string name="live_ranking_hints_found">Hints found:</string>-->
+    <!--<string name="live_ranking_time_remaining">Time remaining:</string>-->
 
     <!--Enter treasure code-->
     <string name="enter_code_title">Enter Treasure Code</string>
     <string name="submit_code">Submit code</string>
-    <string name="enter_code_text">Enter the code found in the treasure. If the code is correct, you win the game! You have three tries!</string>
+    <string name="enter_code_text">Enter the code found in the treasure. If the code is correct, you win the game! You have 3 tries in total!</string>
     <string name="enter_code_hint">e.g. A very secret code</string>
 
     <!--Losing screen-->
     <string name="losing_screen_title">Better luck next time!</string>
 
     <!--Instructions screen-->
-    <string name="instructions_screen_desc">When you hit start, you will receive your first hint. Follow the hint to a location, if you are close to the next queue, you phone will start beeping. Once you reach the correct location, you will receive the next hint. Eventually, you will find the final clue which will lead you to the treasure. The treasure will contain a secret code. Enter it into the app to win!
-Have fun!</string>
+    <string name="instructions_screen_desc">Hit start to receive your first hint. Follow the hint to the location it is describing. If you are close to the location, your phone will start beeping and vibrate. Once you reach the correct location, you will receive the next hint. The final hint will lead you to the treasure. The treasure will contain a secret code. Enter this code into the app to win!
+    Have fun!</string>
     <string name="instructions_headline">Instructions</string>
     <string name="instructions_btn">Start Scavenger hunt</string>
 
@@ -70,7 +70,7 @@ Have fun!</string>
     <!--Help screen-->
     <string name="help_headline">Help</string>
     <string name="backbtn_helpscreen">Back</string>
-    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hunt and Beep website.  Create an account on the website and login to it here on to the app. When creating a scavenger hunt on the website, you can add participants with accounts to participate. On the app you can pick a scavenger hunt your account has been assigned to.
+    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hide and Beep <a href="https://hide-and-beep.projects.multimediatechnology.at">website</a>. After creating a hunt on the website, and adding hints to it, you will find an authentication key for each hunt on the website. On the app, you can start a specific scavenger hunt by entering in its authentication key.
     \n\n
         © 2012 Gitanki (Freesound) All Rights Reserved
     </string>
@@ -79,14 +79,14 @@ Have fun!</string>
     <!--Winning screen-->
     <string name="winning_headline">Congratulations, you found the treasure!</string>
 
-    <!--Login screen-->
-    <string name="login_headline">Login</string>
-    <string name="login_username">Username</string>
-    <string name="login_password">Password</string>
+    <!--&lt;!&ndash;Login screen&ndash;&gt;-->
+    <!--<string name="login_headline">Login</string>-->
+    <!--<string name="login_username">Username</string>-->
+    <!--<string name="login_password">Password</string>-->
 
-    <string name="edit_username">Input field for username.</string>
-    <string name="edit_password">Input field for password.</string>
-    <string name="img_description_keylock_with_sheep">A black keylock with all the different sheep in it.</string>
-    <string name="img_description_logout_button">Logout Button.</string>
+    <!--<string name="edit_username">Input field for username.</string>-->
+    <!--<string name="edit_password">Input field for password.</string>-->
+    <!--<string name="img_description_keylock_with_sheep">A black keylock with all the different sheep in it.</string>-->
+    <!--<string name="img_description_logout_button">Logout Button.</string>-->
 
 </resources>
