@@ -428,22 +428,17 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             //Todo: remove later
             distanceBetween = 5;
 
-//            if (totalHints == 0) {
-//                numOfAllHints.setText(String.valueOf(0));
-//                openEnterCodeOverlay();
-//            }
             if (distanceBetween <= 80 && distanceBetween >= 36) {
                 switchWarningToOrangeAlarm();
                 v.vibrate(500);
                 //TODO: SLOW BEEP - 10 SECS
-
             }
             if (distanceBetween <= 35 && distanceBetween >= 16) {
                 switchWarningToRedAlarm();
                 v.vibrate(500);
                 //TODO: FAST BEEP - 10 SECS
             }
-            if (distanceBetween <= 50000) { // 15m => found the hint
+            if (distanceBetween <= 15) {
                 totalHints -= 1;
                 currentHint += 1;
 
@@ -451,7 +446,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 if (totalHints > 0) {
                     v.vibrate(500);
                     prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
-                    numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
+                    numOfAllHints.setText(String.valueOf(totalHints));
 
                     AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
                     switchToNextHint.
@@ -464,22 +459,16 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                                     linearLayout.animate().translationY(0);
                                 }
                             }).show();
-
-//                    if (currentHint == hints.length - 1) {
-//                        //totalHints = 0;
-//                        numOfAllHints.setText(String.valueOf(0));
-//                    }
-                    
                 }
-                else{
+                else {
                     //Last hint was found
-                    numOfAllHints.setText(String.valueOf(0));
+                    numOfAllHints.setText(String.valueOf(totalHints));
+
                     //TODO: REFACTOR TO REMOVE THESE
                     final ConstraintLayout constraintLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
                     final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
                     final Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
                     openEnterCodeOverlay(constraintLayout, mainGameEnterCodeBtn, mainGameHintBtn);
-
                 }
             }
         }
