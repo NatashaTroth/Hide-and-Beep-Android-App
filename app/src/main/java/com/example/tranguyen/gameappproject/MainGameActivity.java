@@ -181,8 +181,8 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     private void prepareEnterCodeOverlay(final Hunt hunt, final int screenHeight){
-        final ConstraintLayout linearLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
-        linearLayout.setTranslationY(screenHeight);
+        final ConstraintLayout constraintLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
+        constraintLayout.setTranslationY(screenHeight);
 
         //Click on "Enter Treasure Code" Button
         final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
@@ -190,9 +190,10 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         mainGameEnterCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                linearLayout.setTranslationY(0);
-                mainGameEnterCodeBtn.setVisibility(View.GONE);
-                mainGameHintBtn.setVisibility(View.GONE);
+                openEnterCodeOverlay(constraintLayout, mainGameEnterCodeBtn, mainGameHintBtn);
+//                constraintLayout.setTranslationY(0);
+//                mainGameEnterCodeBtn.setVisibility(View.GONE);
+//                mainGameHintBtn.setVisibility(View.GONE);
             }
         });
 
@@ -201,57 +202,29 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         enterCodeBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                linearLayout.setTranslationY(screenHeight);
+
+                constraintLayout.setTranslationY(screenHeight);
                 mainGameEnterCodeBtn.setVisibility(View.VISIBLE);
                 mainGameHintBtn.setVisibility(View.VISIBLE);
             }
         });
 
         //Click on "Submit button
-        openEnterCodeOverlay();
-//        Button submitCodeBtn = findViewById(R.id.submitCodeBtn);
-//        submitCodeBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                EditText editText = (EditText) findViewById(R.id.editTextEnterTreasureCode);
-//                String inputCode = editText.getText().toString();
-//
-//                if(inputCode.equals(hunt.getWinningCode())){
-//                    Intent intent = new Intent(MainGameActivity.this, WinActivity.class);
-//                    startActivity(intent);
-//                }
-//                else {
-//                    hunt.enterCodeTries--;
-//                    if(hunt.enterCodeTries <= 0){
-//                        String toastText = "Wrong code. That was your last try. Game over!";
-//                        Toast toast = Toast.makeText(getApplicationContext(),
-//                                toastText,
-//                                Toast.LENGTH_LONG);
-//                        toast.setGravity(Gravity.TOP, 0, 50);
-//                        toast.show();
-//                        Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
-//                        startActivity(intent);
-//                    }
-//                    else{
-//                        String tryCase = "tries";
-//                        if(hunt.enterCodeTries == 1)
-//                            tryCase = "try";
-//                        String toastText = "Wrong code. Only " + hunt.enterCodeTries + " " + tryCase + " left!";
-//                        Toast toast = Toast.makeText(getApplicationContext(),
-//                                toastText,
-//                                Toast.LENGTH_LONG);
-//                        toast.setGravity(Gravity.TOP, 0, 50);
-//                        toast.show();
-//                    }
-//
-//                }
-//            }
-//        });
+        createEnterCodeSubmitButtonListener();
 
     }
 
-    private void openEnterCodeOverlay(){
+
+
+    private void openEnterCodeOverlay(ConstraintLayout constraintLayout, Button mainGameEnterCodeBtn,Button mainGameHintBtn){
+
+        constraintLayout.setTranslationY(0);
+        mainGameEnterCodeBtn.setVisibility(View.GONE);
+        mainGameHintBtn.setVisibility(View.GONE);
+
+    }
+
+    private void createEnterCodeSubmitButtonListener(){
         Button submitCodeBtn = findViewById(R.id.submitCodeBtn);
         submitCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -452,6 +425,9 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
             float distanceBetween = hintLocation.distanceTo(currentLocation);
 
+            //Todo: remove later
+            distanceBetween = 5;
+
 //            if (totalHints == 0) {
 //                numOfAllHints.setText(String.valueOf(0));
 //                openEnterCodeOverlay();
@@ -472,7 +448,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 currentHint += 1;
 
                 //not on last hint
-                if (totalHints >= 0) {
+                if (totalHints > 0) {
                     v.vibrate(500);
                     prepareHintOverlay(hunt, hints, SCREEN_HEIGHT, currentHint);
                     numOfAllHints.setText(String.valueOf(totalHints)); // show the total hint in circle of game
@@ -487,7 +463,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     linearLayout.animate().translationY(0);
                                 }
-                            }).setNegativeButton("NO", null).show();
+                            }).show();
 
 //                    if (currentHint == hints.length - 1) {
 //                        //totalHints = 0;
@@ -498,7 +474,11 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 else{
                     //Last hint was found
                     numOfAllHints.setText(String.valueOf(0));
-                    openEnterCodeOverlay();
+                    //TODO: REFACTOR TO REMOVE THESE
+                    final ConstraintLayout constraintLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
+                    final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
+                    final Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
+                    openEnterCodeOverlay(constraintLayout, mainGameEnterCodeBtn, mainGameHintBtn);
 
                 }
             }
