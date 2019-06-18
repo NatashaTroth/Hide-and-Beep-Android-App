@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EnterAuthKeyActivity extends AppCompatActivity {
+    private MyToast myToast;
 
     public interface VolleyCallbackObject {
         void onSuccess(JSONObject result);
@@ -30,10 +28,9 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
         void onSuccess(JSONArray result);
     }
 
-    //TODO: Errorhandling
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        myToast = MyToast.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_auth_key);
         setOnclickEventListeners();
@@ -67,10 +64,6 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.editTextKey);
                 String inputAuthKey = editText.getText().toString();
-
-                //TODO: REMOVE - JUST FOR TESTING
-                inputAuthKey = "OLMYjtoLwW";
-
                 loadHuntAndGoToInstructions(inputAuthKey);
             }
         });
@@ -109,13 +102,8 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
-
                     //It will only come here if unsuccessful
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Hunt could not be loaded.",
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 0, 50);
-                    toast.show();
+                    myToast.createToast("Hunt could not be loaded.");
                     return;
                 }
             }
@@ -195,13 +183,8 @@ public class EnterAuthKeyActivity extends AppCompatActivity {
 
 
     private void goToInstructions(Hunt hunt, Hint[] hints){
-        String toastText = "Hunt loaded!";
-        Toast toast = Toast.makeText(EnterAuthKeyActivity.this,
-                toastText,
-                Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 50);
-        toast.show();
 
+        myToast.createToast("Hunt loaded!");
         Intent intent = new Intent(EnterAuthKeyActivity.this, InstructionsActivity.class);
         intent.putExtra("hunt",(Serializable) hunt);
         intent.putExtra("hints",(Serializable) hints);

@@ -3,8 +3,6 @@ package com.example.tranguyen.gameappproject;
 import android.content.Context;
 import android.view.Gravity;
 
-import com.android.volley.RequestQueue;
-
 public class MyToast {
 
     private static MyToast instance;
@@ -21,7 +19,7 @@ public class MyToast {
         return instance;
     }
 
-    public void createToast(String text){
+    public void createToast(String text) {
         android.widget.Toast toast = android.widget.Toast.makeText(ctx,
                 text,
                 android.widget.Toast.LENGTH_LONG);

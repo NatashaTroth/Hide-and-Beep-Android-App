@@ -16,12 +16,11 @@
         android:contentDescription="@string/img_description_grass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_grass"
-        />
+        app:layout_constraintVertical_bias="0.057"
+        app:srcCompat="@drawable/ic_grass" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -38,6 +37,7 @@
         android:layout_width="153dp"
         android:layout_height="355dp"
         android:layout_marginTop="104dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="@string/img_description_sheep_looking"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent"
@@ -48,25 +48,35 @@
         android:layout_width="103dp"
         android:layout_height="33dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="48dp"
         android:text="@string/help_headline"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.037"
+        app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/helpText"
-        android:layout_width="205dp"
-        android:layout_height="288dp"
+        android:layout_width="223dp"
+        android:layout_height="202dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/help_desc_screen"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/copyright"
+        android:layout_width="223dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/copyright_text"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/helpText" />
 
     <Button
         android:id="@+id/backButton"

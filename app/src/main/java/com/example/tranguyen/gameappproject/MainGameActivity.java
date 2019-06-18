@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -19,27 +18,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
-
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.gson.internal.bind.util.ISO8601Utils.format;
-
 
 public class MainGameActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
@@ -274,13 +265,12 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 switchHint(vibrator);
             else
                 switchToEnterCode();
-        }
-         else
+        } else
             handleYellowRadar(vibrator);
 
     }
 
-    private float calcDistanceBetween(double lat, double lng){
+    private float calcDistanceBetween(double lat, double lng) {
         Location hintLocation = new Location("");
         Location currentLocation = new Location("");
         hintLocation.setLatitude(hints[currentHint].getLatitude());
@@ -290,7 +280,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         return hintLocation.distanceTo(currentLocation);
     }
 
-    private void handleOrangeRadar(Vibrator vibrator){
+    private void handleOrangeRadar(Vibrator vibrator) {
         //only play beep when you first arrive at orange
         if (radarColor != Color.ORANGE) {
             MediaPlayer mediaPlayer = MediaPlayer.create(MainGameActivity.this, R.raw.beep_slower);
@@ -301,7 +291,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         vibrator.vibrate(500);
     }
 
-    private void handleRedRadar(Vibrator vibrator){
+    private void handleRedRadar(Vibrator vibrator) {
         //only play beep when you first arrive at orange
         if (radarColor != Color.RED) {
             MediaPlayer mediaPlayer = MediaPlayer.create(MainGameActivity.this, R.raw.beep_faster);
@@ -312,7 +302,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         vibrator.vibrate(500);
     }
 
-    private void handleYellowRadar(Vibrator vibrator){
+    private void handleYellowRadar(Vibrator vibrator) {
         radarColor = Color.YELLOW;
         switchWarningAlarm(R.drawable.ic_yellowalarm);
         vibrator.vibrate(500);
@@ -323,7 +313,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         alarmImageView.setImageResource(image);
     }
 
-    private void switchHint(Vibrator vibrator){
+    private void switchHint(Vibrator vibrator) {
         final LinearLayout hintOverlay = (LinearLayout) findViewById(R.id.hintOverlay);
         vibrator.vibrate(500);
         overlays.prepareHintOverlay(hints, SCREEN_HEIGHT, currentHint);
@@ -342,7 +332,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 }).show();
     }
 
-    private void switchToEnterCode(){
+    private void switchToEnterCode() {
         //Last hint was found
         numOfAllHints.setText(String.valueOf(0));
         final ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
@@ -430,7 +420,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private boolean hasPermission(String permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-    }
+        }
 
         return true;
     }

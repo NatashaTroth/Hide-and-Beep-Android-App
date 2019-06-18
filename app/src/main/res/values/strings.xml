@@ -54,7 +54,9 @@
     <string name="losing_screen_title">Better luck next time!</string>
 
     <!--Instructions screen-->
-    <string name="instructions_screen_desc">Hit start to receive your first hint. Follow the hint to the location it is describing. If you are close to the location, your phone will start beeping and vibrate. Once you reach the correct location, you will receive the next hint. The final hint will lead you to the treasure. The treasure will contain a secret code. Enter this code into the app to win!
+    <string name="instructions_screen_desc">Hit start to receive your first hint. Follow the hint to the location it is describing.
+        If you are close to the location, your phone will start beeping and vibrate. Once you reach the correct location, you will
+        receive the next hint. The final hint will lead you to the treasure. The treasure will contain a secret code. Enter this code into the app to win!
     Have fun!</string>
     <string name="instructions_headline">Instructions</string>
     <string name="instructions_btn">Start Scavenger hunt</string>
@@ -63,9 +65,15 @@
     <!--Help screen-->
     <string name="help_headline">Help</string>
     <string name="backbtn_helpscreen">Back</string>
-    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hide and Beep <a href="https://hide-and-beep.projects.multimediatechnology.at">website</a>. After creating a hunt on the website, and adding hints to it, you will find an authentication key for each hunt on the website. On the app, you can start a specific scavenger hunt by entering in its authentication key.
-    \n\n
-        © 2012 Gitanki (Freesound) All Rights Reserved
+    <string name="help_desc_screen">You can create and organise scavenger hunts on the Hide and Beep
+        <a href="https://hide-and-beep.projects.multimediatechnology.at">website</a>. After creating a hunt on the website,
+        and adding hints to it, you will find an authentication key for each hunt on the website. On the app, you can start a specific
+        scavenger hunt by entering in its authentication key.
+    </string>
+    <string name="copyright_text">
+        Sounds:\n
+        © 2012 Gitanki (Freesound) All Rights Reserved\n
+        © 2016 BoxerDave92 (Freesound) All Rights Reserved (Modified)
     </string>
     <string name="help_desc_copyright">© 2012 Gitanki (Freesound) All Rights Reserved</string>
 
