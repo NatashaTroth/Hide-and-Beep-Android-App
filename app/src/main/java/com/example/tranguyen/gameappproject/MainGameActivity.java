@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -70,6 +71,14 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private double locationLat;
     private double locationLng;
     private int SCREEN_HEIGHT;
+
+    //To make sure the beeping only plays once
+    enum Color {
+        YELLOW,
+        ORANGE,
+        RED
+    }
+    Color radarColor = Color.YELLOW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -426,19 +435,34 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
             float distanceBetween = hintLocation.distanceTo(currentLocation);
 //
 ////            //Todo: remove later
-//            distanceBetween = 5;
+            distanceBetween = 25;
+
 
             if (distanceBetween <= 80 && distanceBetween >= 36) {
+
+                //only play beep when you first arrive at orange
+                if(radarColor != Color.ORANGE){
+                    MediaPlayer mediaPlayer= MediaPlayer.create(MainGameActivity.this,R.raw.beep_slower);
+                    mediaPlayer.start();
+                    radarColor = Color.ORANGE;
+                }
                 switchWarningToOrangeAlarm();
                 v.vibrate(500);
-                //TODO: SLOW BEEP - 10 SECS
+
             }
-            if (distanceBetween <= 35 && distanceBetween >= 16) {
+            else if (distanceBetween <= 35 && distanceBetween >= 16) {
+                //only play beep when you first arrive at orange
+                if(radarColor != Color.RED){
+                    MediaPlayer mediaPlayer= MediaPlayer.create(MainGameActivity.this,R.raw.beep_faster);
+                    mediaPlayer.start();
+                    radarColor = Color.RED;
+                }
                 switchWarningToRedAlarm();
                 v.vibrate(500);
-                //TODO: FAST BEEP - 10 SECS
+
             }
-            if (distanceBetween <= 15) {
+            else if (distanceBetween <= 15) {
+
                 totalHints -= 1;
                 currentHint += 1;
 
@@ -461,6 +485,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                             }).show();
                 }
                 else {
+
                     //Last hint was found
                     numOfAllHints.setText(String.valueOf(totalHints));
 
@@ -471,6 +496,9 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                     openEnterCodeOverlay(constraintLayout, mainGameEnterCodeBtn, mainGameHintBtn);
                 }
             }
+            else
+                radarColor = Color.YELLOW;
+
         }
     }
 
