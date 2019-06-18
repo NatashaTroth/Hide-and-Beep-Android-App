@@ -18,15 +18,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-        <!-- <uses-library -->
-        <!-- android:name="org.apache.http.legacy" -->
-        <!-- android:required="false" /> -->
-        <!-- <activity -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:name=".MainActivity" -->
-        <!-- android:windowSoftInputMode="adjustPan|adjustResize"> -->
-        <!--  -->
-        <!-- </activity> -->
         <activity
             android:name=".HomescreenActivity"
             android:screenOrientation="portrait">
