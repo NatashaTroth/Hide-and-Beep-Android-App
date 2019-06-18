@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,15 +19,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +35,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -80,7 +75,10 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         ORANGE,
         RED
     }
+
     Color radarColor = Color.YELLOW;
+
+    //TODO: AT END, GO TO ENTERCODEACTIVITY, CHANGE ADD TOAST TO ONE METHOD
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +92,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         SCREEN_HEIGHT = getScreenHeight();
         getExtras();
-
         numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
         numOfAllHints.setText(String.valueOf(totalHints));
 
@@ -102,18 +99,8 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         createCountdownClock(hunt);
         setHomeOnClickListeners(hunt, hints);
 
-         // request the location of user and add the permissions
-        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        permissionsToRequest = permissionsRequest(permissions);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (permissionsToRequest.size() > 0) {
-                requestPermissions(permissionsToRequest.
-                        toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
-            }
-        }
+        // request the location of user and add the permissions
+        requestPermissionsLocation();
 
         // build the google api client
         googleApiClient = new GoogleApiClient.Builder(this).
@@ -123,31 +110,39 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
     }
 
-    private int getScreenHeight(){
+    private void createToast(String text){
+        Toast toast = Toast.makeText(getApplicationContext(),
+                text,
+                Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, 50);
+        toast.show();
+
+    }
+
+    private int getScreenHeight() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
 
-    private void getExtras(){
+    private void getExtras() {
         hunt = (Hunt) getIntent().getSerializableExtra("hunt");
         hints = (Hint[]) getIntent().getSerializableExtra("hints");
         currentHint = getIntent().getExtras().getInt("currentHint");
         totalHints = hints.length;
     }
 
-    private void prepareOverlays(){
+    private void prepareOverlays() {
         overlays = new Overlays(this);
         overlays.prepareHintOverlay(hints, SCREEN_HEIGHT, currentHint);
         overlays.prepareHelpOverlay(SCREEN_HEIGHT);
-        overlays.prepareEnterCodeOverlay(SCREEN_HEIGHT, hunt,MainGameActivity.this);
-     //   createEnterCodeSubmitButtonListener();
+        overlays.prepareEnterCodeOverlay(SCREEN_HEIGHT, hunt, MainGameActivity.this);
     }
 
-    private void createCountdownClock(Hunt hunt){
+    private void createCountdownClock(Hunt hunt) {
         final TextView timerTextView = (TextView) findViewById(R.id.gameTime);
 
-        if(!hunt.getNoTimeLimit()){
+        if (!hunt.getNoTimeLimit()) {
             //Create timer
             new CountDownTimer(hunt.getTimeLimit(), 1000) {
 
@@ -160,29 +155,22 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 }
 
                 public void onFinish() {
-                    String toastText = "Time up. Game over!";
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            toastText,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 0, 50);
-                    toast.show();
+                    createToast("Time up. Game over!");
                     Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
                     startActivity(intent);
                 }
             }.start();
-        }
-        else{
+        } else {
             timerTextView.setText(R.string.unlimited);
         }
-
     }
 
-    private void setHomeOnClickListeners(final Hunt hunt, final Hint[] hints){
+
+    private void setHomeOnClickListeners(final Hunt hunt, final Hint[] hints) {
         ImageView owlHomeBtn = findViewById(R.id.homeOwl);
         owlHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
                         .setTitle("Warning!")
                         .setMessage("Going to home will end this hunt. Do you still want to go to home?")
@@ -193,12 +181,26 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                                 Intent intent = new Intent(MainGameActivity.this, HomescreenActivity.class);
                                 startActivity(intent);
 
-                            }})
+                            }
+                        })
                         .setNegativeButton(android.R.string.no, null).show();
 
             }
         });
 
+    }
+
+    private void requestPermissionsLocation() {
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissionsToRequest = permissionsRequest(permissions);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (permissionsToRequest.size() > 0) {
+                requestPermissions(permissionsToRequest.
+                        toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+            }
+        }
     }
 
     @Override
@@ -242,14 +244,11 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         if (resultCode != ConnectionResult.SUCCESS) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
-            }
-            else {
+            } else {
                 finish();
             }
-
             return false;
         }
-
         return true;
     }
 
@@ -267,122 +266,110 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onLocationChanged(Location location) {
-        if (location != null) {
-
+        if (location != null && currentHint < hints.length) {
             // get distance between locations
             locationLat = location.getLatitude();
             locationLng = location.getLongitude();
-
-            // confirmation that GPS connection is still available
-//            String toastLocation = "GPS requested.";
-//
-//            Toast gpsToast = Toast.makeText(MainGameActivity.this,
-//                    toastLocation,
-//                    Toast.LENGTH_LONG);
-//            gpsToast.setGravity(Gravity.BOTTOM, 0, 50);
-//            gpsToast.show();
-
-            switchToNextHint(locationLat, locationLng);
+            handleNewLocation(locationLat, locationLng);
         }
     }
 
-    public void switchToNextHint(double lat, double lng) {
-        final LinearLayout linearLayout  = (LinearLayout) findViewById(R.id.hintOverlay);
+    private void handleNewLocation(double lat, double lng) {
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        float distanceBetween = calcDistanceBetween(lat, lng);
+        if (distanceBetween <= 80 && distanceBetween >= 36)
+            handleOrangeRadar(vibrator);
+        else if (distanceBetween <= 35 && distanceBetween >= 16)
+            handleRedRadar(vibrator);
+        else if (distanceBetween <= 15) {
+            totalHints -= 1;
+            currentHint += 1;
+            //not on last hint
+            if (totalHints > 0)
+                switchHint(vibrator);
+            else
+                switchToEnterCode();
+        }
+         else
+            handleYellowRadar(vibrator);
+
+    }
+
+    private float calcDistanceBetween(double lat, double lng){
         Location hintLocation = new Location("");
         Location currentLocation = new Location("");
+        hintLocation.setLatitude(hints[currentHint].getLatitude());
+        hintLocation.setLongitude(hints[currentHint].getLongitude());
+        currentLocation.setLatitude(lat);
+        currentLocation.setLongitude(lng);
+        return hintLocation.distanceTo(currentLocation);
+    }
 
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-        if (currentHint < hints.length) {
-            // calculate the distance between current gps location of user and hint location
-            hintLocation.setLatitude(hints[currentHint].getLatitude());
-            hintLocation.setLongitude(hints[currentHint].getLongitude());
-            currentLocation.setLatitude(lat);
-            currentLocation.setLongitude(lng);
-
-            float distanceBetween = hintLocation.distanceTo(currentLocation);
-//
-////            //Todo: remove later
-            distanceBetween = 13;
-
-
-            if (distanceBetween <= 80 && distanceBetween >= 36) {
-
-                //only play beep when you first arrive at orange
-                if(radarColor != Color.ORANGE){
-                    MediaPlayer mediaPlayer= MediaPlayer.create(MainGameActivity.this,R.raw.beep_slower);
-                    mediaPlayer.start();
-                    radarColor = Color.ORANGE;
-                }
-                switchWarningToOrangeAlarm();
-                v.vibrate(500);
-
-            }
-            else if (distanceBetween <= 35 && distanceBetween >= 16) {
-                //only play beep when you first arrive at orange
-                if(radarColor != Color.RED){
-                    MediaPlayer mediaPlayer= MediaPlayer.create(MainGameActivity.this,R.raw.beep_faster);
-                    mediaPlayer.start();
-                    radarColor = Color.RED;
-                }
-                switchWarningToRedAlarm();
-                v.vibrate(500);
-
-            }
-            else if (distanceBetween <= 15) {
-
-                totalHints -= 1;
-                currentHint += 1;
-
-                //not on last hint
-                if (totalHints > 0) {
-                    v.vibrate(500);
-                    overlays.prepareHintOverlay(hints, SCREEN_HEIGHT, currentHint);
-                    numOfAllHints.setText(String.valueOf(totalHints));
-
-                    AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-                    switchToNextHint.
-                            setTitle("That was mäh-tastic!").
-                            setMessage("Are you ready for the next hint?").
-                            setCancelable(false).
-                            setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                //@Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    linearLayout.animate().translationY(0);
-                                }
-                            }).show();
-                }
-                else {
-
-                    //Last hint was found
-                    numOfAllHints.setText(String.valueOf(totalHints));
-
-                    //TODO: REFACTOR TO REMOVE THESE
-                    final ConstraintLayout constraintLayout  = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
-                    final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
-                    final Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
-                    overlays.openEnterCodeOverlay(constraintLayout, mainGameEnterCodeBtn, mainGameHintBtn);
-                }
-            }
-            else
-                radarColor = Color.YELLOW;
-
+    private void handleOrangeRadar(Vibrator vibrator){
+        //only play beep when you first arrive at orange
+        if (radarColor != Color.ORANGE) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(MainGameActivity.this, R.raw.beep_slower);
+            mediaPlayer.start();
+            radarColor = Color.ORANGE;
         }
+        switchWarningAlarm(R.drawable.ic_orangealarm);
+        vibrator.vibrate(500);
     }
 
-    public void switchWarningToOrangeAlarm() {
-        ImageView orangeAlarm = (ImageView)findViewById(R.id.imageView12);
-        orangeAlarm.setImageResource(R.drawable.ic_orangealarm);
+    private void handleRedRadar(Vibrator vibrator){
+        //only play beep when you first arrive at orange
+        if (radarColor != Color.RED) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(MainGameActivity.this, R.raw.beep_faster);
+            mediaPlayer.start();
+            radarColor = Color.RED;
+        }
+        switchWarningAlarm(R.drawable.ic_redalarm);
+        vibrator.vibrate(500);
     }
 
-    public void switchWarningToRedAlarm() {
-        ImageView redAlarm = (ImageView)findViewById(R.id.imageView12);
-        redAlarm.setImageResource(R.drawable.ic_redalarm);
+    private void handleYellowRadar(Vibrator vibrator){
+        radarColor = Color.YELLOW;
+        switchWarningAlarm(R.drawable.ic_yellowalarm);
+        vibrator.vibrate(500);
+    }
+
+    private void switchWarningAlarm(int image) {
+        ImageView alarmImageView = (ImageView) findViewById(R.id.imageView12);
+        alarmImageView.setImageResource(image);
+    }
+
+    private void switchHint(Vibrator vibrator){
+        final LinearLayout hintOverlay = (LinearLayout) findViewById(R.id.hintOverlay);
+        vibrator.vibrate(500);
+        overlays.prepareHintOverlay(hints, SCREEN_HEIGHT, currentHint);
+        numOfAllHints.setText(String.valueOf(totalHints));
+
+        AlertDialog.Builder switchToNextHint = new AlertDialog.Builder(MainGameActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+        switchToNextHint.
+                setTitle("That was mäh-tastic!").
+                setMessage("Are you ready for the next hint?").
+                setCancelable(false).
+                setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    //@Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        hintOverlay.animate().translationY(0);
+                    }
+                }).show();
+    }
+
+    private void switchToEnterCode(){
+        //Last hint was found
+        numOfAllHints.setText(String.valueOf(0));
+        final ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.enterCodeOverlay);
+        final Button mainGameEnterCodeBtn = findViewById(R.id.mainGameEnterCodeBtn);
+        final Button mainGameHintBtn = findViewById(R.id.mainGameHintBtn);
+        overlays.openEnterCodeOverlay(constraintLayout, mainGameEnterCodeBtn, mainGameHintBtn);
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode) {
+        switch (requestCode) {
             case ALL_PERMISSIONS_RESULT:
                 for (String perm : permissionsToRequest) {
                     if (!hasPermission(perm)) {
@@ -409,8 +396,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                             return;
                         }
                     }
-                }
-                else {
+                } else {
                     if (googleApiClient != null) {
                         googleApiClient.connect();
                     }
@@ -428,19 +414,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         // if permissions is ok, get last location
         location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-
-//        if (location != null) {
-//            //Log.d("CURRENT LOCATION: ", location.toString());
-//
-//            String toastLocation = "GPS connected.";
-//
-//            Toast toast = Toast.makeText(MainGameActivity.this,
-//                    toastLocation,
-//                    Toast.LENGTH_LONG);
-//            toast.setGravity(Gravity.BOTTOM, 0, 50);
-//            toast.show();
-//        }
-
         startLocationUpdates();
     }
 
@@ -484,7 +457,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private boolean hasPermission(String permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-        }
+    }
 
         return true;
     }

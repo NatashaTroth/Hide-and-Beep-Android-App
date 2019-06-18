@@ -5,8 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -16,19 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
-        <!--<uses-library-->
-            <!--android:name="org.apache.http.legacy"-->
-            <!--android:required="false" />-->
-        <!--<activity-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:name=".MainActivity"-->
-            <!--android:windowSoftInputMode="adjustPan|adjustResize">-->
-            <!---->
-        <!--</activity>-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <!-- <uses-library -->
+        <!-- android:name="org.apache.http.legacy" -->
+        <!-- android:required="false" /> -->
+        <!-- <activity -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:name=".MainActivity" -->
+        <!-- android:windowSoftInputMode="adjustPan|adjustResize"> -->
+        <!--  -->
+        <!-- </activity> -->
         <activity
-            android:screenOrientation="portrait"
-            android:name=".HomescreenActivity">
+            android:name=".HomescreenActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,26 +37,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".EnterAuthKeyActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>
-        <activity
             android:screenOrientation="portrait"
-            android:name=".InstructionsActivity" />
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
-            android:screenOrientation="portrait"
-            android:name=".HintActivity"></activity>
+            android:name=".InstructionsActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
+            android:name=".HintActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MainGameActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity
             android:screenOrientation="portrait"
-            android:name=".WinActivity" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
-            android:screenOrientation="portrait"
-            android:name=".LoseActivity"></activity>
-        <activity android:name=".HelpActivity"></activity>
+            android:name=".WinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoseActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".EnterCodeActivity"></activity>
     </application>
 
 </manifest>
