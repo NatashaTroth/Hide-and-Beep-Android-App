@@ -73,14 +73,13 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="102dp"
-        android:layout_height="129dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="181dp"
+        android:layout_height="182dp"
+        android:layout_marginTop="140dp"
+        android:contentDescription="@string/img_description_sheep_hide"
         app:layout_constraintStart_toEndOf="@+id/hintTickButton"
         app:layout_constraintTop_toBottomOf="@+id/hintText"
-        app:srcCompat="@drawable/ic_hide2"
-        android:contentDescription="@string/img_description_sheep_hide"/>
+        app:srcCompat="@drawable/ic_asset_sheep_hider" />
 
 
 </android.support.constraint.ConstraintLayout>

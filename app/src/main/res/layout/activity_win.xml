@@ -27,6 +27,7 @@
     <TextView
         android:id="@+id/textView6"
         style="@style/headingStyle"
+        android:textSize="35sp"
         android:layout_width="351dp"
         android:layout_height="123dp"
         android:layout_marginStart="8dp"
