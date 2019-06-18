@@ -68,6 +68,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     private int SCREEN_HEIGHT;
     private Overlays overlays;
     private TextView numOfAllHints;
+    private MyToast myToast;
 
     //To make sure the beeping only plays once
     enum Color {
@@ -77,8 +78,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     Color radarColor = Color.YELLOW;
-
-    //TODO: AT END, GO TO ENTERCODEACTIVITY, CHANGE ADD TOAST TO ONE METHOD
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +89,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        myToast = MyToast.getInstance(this);
         SCREEN_HEIGHT = getScreenHeight();
         getExtras();
         numOfAllHints = (TextView) findViewById(R.id.numberOfHintsLeft);
@@ -107,15 +107,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 addApi(LocationServices.API).
                 addConnectionCallbacks(this).
                 addOnConnectionFailedListener(this).build();
-
-    }
-
-    private void createToast(String text){
-        Toast toast = Toast.makeText(getApplicationContext(),
-                text,
-                Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP, 0, 50);
-        toast.show();
 
     }
 
@@ -155,7 +146,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 }
 
                 public void onFinish() {
-                    createToast("Time up. Game over!");
+                    myToast.createToast("Time up. Game over!");
                     Intent intent = new Intent(MainGameActivity.this, LoseActivity.class);
                     startActivity(intent);
                 }
@@ -184,7 +175,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                             }
                         })
                         .setNegativeButton(android.R.string.no, null).show();
-
             }
         });
 
@@ -217,11 +207,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
         super.onResume();
 
         if (!checkPlayServices()) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "You need to install Google Play Services to use the App properly.",
-                    Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 0, 50);
-            toast.show();
+            myToast.createToast("You need to install Google Play Services to use the App properly.");
         }
     }
 
@@ -260,7 +246,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
                 result.add(perm);
             }
         }
-
         return result;
     }
 
@@ -425,7 +410,7 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "You need to enable permissions to display your current location!", Toast.LENGTH_LONG).show();
+            myToast.createToast("You need to enable permissions to display your current location!");
         }
 
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
@@ -440,18 +425,6 @@ public class MainGameActivity extends AppCompatActivity implements GoogleApiClie
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
-
-    private ArrayList<String> permissionsToRequest(ArrayList<String> wantedPermissions) {
-        ArrayList<String> result = new ArrayList<>();
-
-        for (String perm : wantedPermissions) {
-            if (!hasPermission(perm)) {
-                result.add(perm);
-            }
-        }
-
-        return result;
     }
 
     private boolean hasPermission(String permission) {

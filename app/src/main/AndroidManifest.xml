@@ -57,7 +57,6 @@
             android:name=".LoseActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".HelpActivity" />
-        <activity android:name=".EnterCodeActivity"></activity>
     </application>
 
 </manifest>
