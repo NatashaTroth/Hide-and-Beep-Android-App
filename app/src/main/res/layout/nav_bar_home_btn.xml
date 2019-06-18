@@ -14,6 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_owlhome" />
+        app:srcCompat="@drawable/ic_owlhome"
+        android:contentDescription="@string/img_description_owl"/>
 
 </android.support.constraint.ConstraintLayout>
